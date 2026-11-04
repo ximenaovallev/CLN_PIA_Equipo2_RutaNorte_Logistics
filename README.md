@@ -6,9 +6,9 @@ Producto Integrador de Aprendizaje · Componentes de Lógica de Negocio · Profe
 
 | | |
 |---|---|
-| Repositorio | `https://github.com/ximenaovallev/CLN_02_RutaNorte_Logistics` *(confirmar que sea la versión presentada)* |
-| Sistema desplegado | `https://<SERVICIO>.onrender.com` *(completar tras el despliegue)* |
-| Swagger UI | `<URL desplegada>/docs` · OpenAPI: `<URL desplegada>/openapi.json` |
+| Repositorio | `https://github.com/ximenaovallev/CLN_PIA_Equipo2_RutaNorte_Logistics` |
+| Sistema desplegado | `https://rutanorte-api.onrender.com` |
+| Swagger UI | `https://rutanorte-api.onrender.com/docs` · OpenAPI: `https://rutanorte-api.onrender.com/openapi.json` |
 
 > La API implementa el proceso de cotización y ejecución de servicios de transporte de RutaNorte Logistics: cotizar, aceptar, generar la orden, asignar recursos, ejecutar, entregar con evidencia o cancelar. Las reglas del BRD (R-01…R-22) viven en el dominio (DDD + Specification + máquina de estados).
 
