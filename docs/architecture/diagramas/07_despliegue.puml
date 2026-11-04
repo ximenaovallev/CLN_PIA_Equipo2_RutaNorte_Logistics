@@ -5,7 +5,7 @@ actor "Desarrollador" as dev
 actor "Profesor / usuario" as user
 
 node "GitHub" {
-  artifact "Repositorio\nximenaovallev/CLN_02_RutaNorte_Logistics" as repo
+  artifact "Repositorio\nximenaovallev/CLN_PIA_Equipo2_RutaNorte_Logistics" as repo
   component "GitHub Actions\n.github/workflows/ci.yml" as ci
 }
 node "Render" {

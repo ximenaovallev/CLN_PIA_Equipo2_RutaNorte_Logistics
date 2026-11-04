@@ -84,7 +84,8 @@ def test_409_duplicado_y_transicion_invalida(cliente):
     oid = _orden(cliente)
     r = cliente.post(f"/ordenes/{oid}/llegada")
     assert r.status_code == 409 and r.json()["codigo"] == "TransicionDeEstadoInvalida"
-    assert "se requiere EN_TRANSITO" in r.json()["mensaje"]
+    assert "el servicio está confirmado" in r.json()["mensaje"] and "debe estar en camino" in r.json()["mensaje"]
+    assert r.json()["que_hacer"]
 
 
 
@@ -164,3 +165,68 @@ def test_health_y_openapi_documentado(cliente):
     assert cliente.get("/docs").status_code == 200  # Swagger UI
     codigos = {c for p in spec["paths"].values() for op in p.values() for c in op["responses"]}
     assert {"200", "201", "400", "404", "409", "422"} <= codigos
+
+
+# ----------------------------- lenguaje sencillo para quien usa la API -----------------------------
+def test_las_respuestas_correctas_explican_que_paso_y_que_sigue(cliente):
+    r = cliente.post("/clientes", json={"id": "CLI-9", "nombre": "Cliente de prueba"})
+    cuerpo = r.json()
+    assert r.status_code == 201 and "quedó registrado con el código CLI-9" in cuerpo["mensaje"]
+    assert cuerpo["que_sigue"] and cuerpo["datos"] == {"cliente_id": "CLI-9"}
+
+
+def test_todo_error_trae_mensaje_claro_y_que_hacer_sin_terminos_tecnicos(cliente):
+    _catalogos(cliente)
+    oid = _orden(cliente)
+    respuestas = [
+        cliente.post("/clientes", json={"id": "CLI-1", "nombre": "otra vez"}),      # 409 duplicado
+        cliente.post(f"/ordenes/{oid}/llegada"),                                     # 409 fuera de orden
+        cliente.get("/clientes/NO-EXISTE"),                                          # 404
+        cliente.post("/clientes", json={"nombre": "sin código"}),                    # 400 falta un dato
+    ]
+    for r in respuestas:
+        cuerpo = r.json()
+        assert set(cuerpo) == {"codigo", "mensaje", "que_hacer"}, cuerpo
+        assert cuerpo["que_hacer"].strip()
+        for tecnico in ("UNIDAD_ASIGNADA", "EN_TRANSITO", "CONFIRMADO", "Traceback", "pydantic", "Field required"):
+            assert tecnico not in cuerpo["mensaje"], cuerpo["mensaje"]
+
+
+def test_400_indica_en_palabras_cual_dato_falta_o_esta_mal(cliente):
+    r = cliente.post("/clientes", json={"nombre": "sin código"})
+    assert r.status_code == 400 and r.json()["mensaje"] == "Falta completar el dato «código»."
+    r = cliente.post("/cotizaciones", json={"cliente_id": "C", "solicitud": {
+        "origen": {"ciudad": "A"}, "destino": {"ciudad": "B"}, "fecha_requerida": "mañana",
+        "mercancia": {"descripcion": "x", "peso_kg": "mucho", "largo_m": 1, "ancho_m": 1, "alto_m": 1}}})
+    mensaje = r.json()["mensaje"]
+    assert r.status_code == 400 and "fecha requerida" in mensaje and "AAAA-MM-DD" in mensaje
+    assert "peso en kilos" in mensaje and "debe ser un número" in mensaje
+    r = cliente.post("/cotizaciones/X/respuesta", json={"respuesta": "TAL VEZ"})
+    assert "ACEPTA" in r.json()["mensaje"] and "RECHAZA" in r.json()["mensaje"]
+
+
+def test_direccion_inexistente_y_pagina_principal_llevan_a_la_ayuda(cliente):
+    r = cliente.get("/no-existe")
+    assert r.status_code == 404 and "No existe esa dirección" in r.json()["mensaje"] and "/docs" in r.json()["que_hacer"]
+    inicio = cliente.get("/", follow_redirects=False)
+    assert inicio.status_code in (302, 307) and inicio.headers["location"] == "/docs"
+
+
+def test_swagger_esta_en_lenguaje_sencillo_con_ejemplos_y_sin_claves_tecnicas(cliente):
+    spec = cliente.get("/openapi.json").json()
+    assert "Try it out" in spec["info"]["description"] and "Execute" in spec["info"]["description"]
+    assert [t["name"] for t in spec["tags"]][0] == "1. Registros básicos"
+    for ruta, metodos in spec["paths"].items():
+        for metodo, op in metodos.items():
+            assert op["summary"] and not any(x in op["summary"] for x in ("US-", "S-0", "CU-")), (ruta, op["summary"])
+            assert op.get("description") or ruta == "/", (ruta, metodo)
+    cuerpos = {op["requestBody"]["content"]["application/json"]["schema"]["$ref"].split("/")[-1]
+               for metodos in spec["paths"].values() for op in metodos.values() if "requestBody" in op}
+    assert len(cuerpos) >= 14
+    for nombre in cuerpos:
+        esquema = spec["components"]["schemas"][nombre]
+        assert esquema.get("examples"), f"{nombre} no trae un ejemplo escrito para «Try it out»"
+    for nombre, esquema in spec["components"]["schemas"].items():
+        if nombre.endswith("In"):
+            for campo, definicion in esquema["properties"].items():
+                assert definicion.get("description") or definicion.get("$ref") or definicion.get("allOf"), f"{nombre}.{campo} no tiene descripción"

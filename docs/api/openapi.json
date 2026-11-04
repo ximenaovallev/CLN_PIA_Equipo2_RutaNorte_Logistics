@@ -2,16 +2,17 @@
   "openapi": "3.1.0",
   "info": {
     "title": "RutaNorte Logistics API",
-    "description": "\nAPI del sistema de **RutaNorte Logistics**: cotización, orden de servicio, asignación de recursos,\nseguimiento, entrega con evidencia e indicadores.\n\n**Códigos de respuesta**: `200` operación correcta · `201` recurso creado · `400` datos inválidos ·\n`404` no existe · `409` conflicto con el estado actual · `422` regla de negocio no cumplida.\n",
+    "description": "\n## ¿Qué es esta página?\nAquí puede **probar el sistema de RutaNorte Logistics** sin saber de programación: pedir una cotización, crear una orden de\ntransporte, seguir el viaje paso a paso y registrar la entrega. Todo lo que haga aquí queda guardado de verdad.\n\n## ¿Cómo se usa? (3 pasos)\n1. Elija una sección de abajo y haga clic en la acción que necesita (por ejemplo, *Registrar un cliente*).\n2. Pulse el botón **Try it out** (probar). El formulario ya viene con un ejemplo escrito; cámbielo por sus datos.\n3. Pulse el botón azul **Execute** (ejecutar). Más abajo verá el resultado, con un mensaje que explica qué pasó y **qué hacer después**.\n\n## El camino completo, en orden\n| Paso | Qué se hace | Sección |\n|---|---|---|\n| 1 | Registrar al cliente, un camión y un operador | 1. Registros básicos |\n| 2 | Pedir la cotización (**guarde el número de cotización**) | 2. Cotizaciones |\n| 3 | Poner el precio y que el cliente acepte | 2. Cotizaciones |\n| 4 | Crear la orden (**guarde el número de orden**) | 3. Órdenes de servicio |\n| 5 | Asignar camión y operador | 3. Órdenes de servicio |\n| 6 | Registrar recolección, salida, llegada y entrega | 3. Órdenes de servicio |\n| 7 | Consultar cómo va el servicio, en cualquier momento | 3. Órdenes de servicio |\n\n## ¿Qué significan los números de respuesta?\n| Número | Significado |\n|---|---|\n| **200** o **201** | Todo salió bien |\n| **400** | Faltan datos o están mal escritos; el mensaje dice cuál corregir |\n| **404** | No se encontró lo que buscó (revise el código que escribió) |\n| **409** | Ese paso no se puede hacer ahora (ya existe o va fuera de orden) |\n| **422** | El negocio no lo permite todavía (por ejemplo, falta autorizar una carga de alto valor) |\n\nSi algo sale mal, **no se preocupe: no se pierde nada**. Lea el mensaje, que siempre explica qué pasó y qué hacer.\n",
     "version": "1.0.0"
   },
   "paths": {
     "/clientes": {
       "post": {
         "tags": [
-          "Catálogos"
+          "1. Registros básicos"
         ],
-        "summary": "Registrar cliente",
+        "summary": "Registrar un cliente",
+        "description": "Da de alta a un cliente.\n\n**Cuándo usarla:** es lo primero que se hace, antes de pedir una cotización.\n\n**Qué necesita:** un código que usted inventa (no se puede repetir) y el nombre del cliente.",
         "operationId": "registrar_cliente_clientes_post",
         "requestBody": {
           "content": {
@@ -25,7 +26,7 @@
         },
         "responses": {
           "201": {
-            "description": "Successful Response",
+            "description": "Todo salió bien y quedó registrado.",
             "content": {
               "application/json": {
                 "schema": {
@@ -35,7 +36,7 @@
             }
           },
           "400": {
-            "description": "Datos inválidos o mal formados",
+            "description": "**Faltan datos o están mal escritos.** El mensaje dice exactamente cuál dato corregir.",
             "content": {
               "application/json": {
                 "schema": {
@@ -45,7 +46,7 @@
             }
           },
           "404": {
-            "description": "El recurso no existe",
+            "description": "**No se encontró.** El código que escribió no existe todavía o tiene un error de escritura.",
             "content": {
               "application/json": {
                 "schema": {
@@ -55,7 +56,7 @@
             }
           },
           "409": {
-            "description": "Conflicto con el estado actual",
+            "description": "**Ese paso no se puede hacer ahora.** Pasa cuando el código ya existe o cuando se intenta un paso fuera de orden.",
             "content": {
               "application/json": {
                 "schema": {
@@ -65,7 +66,7 @@
             }
           },
           "422": {
-            "description": "Regla de negocio no cumplida",
+            "description": "**El negocio no lo permite todavía.** Por ejemplo, un camión sin capacidad suficiente o una carga de alto valor sin autorizar.",
             "content": {
               "application/json": {
                 "schema": {
@@ -80,9 +81,10 @@
     "/clientes/{cliente_id}": {
       "get": {
         "tags": [
-          "Catálogos"
+          "1. Registros básicos"
         ],
-        "summary": "Consultar cliente",
+        "summary": "Consultar un cliente",
+        "description": "Muestra los datos de un cliente ya registrado.",
         "operationId": "consultar_cliente_clientes__cliente_id__get",
         "parameters": [
           {
@@ -91,13 +93,18 @@
             "required": true,
             "schema": {
               "type": "string",
+              "description": "Código del cliente",
+              "examples": [
+                "CLI-001"
+              ],
               "title": "Cliente Id"
-            }
+            },
+            "description": "Código del cliente"
           }
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Todo salió bien.",
             "content": {
               "application/json": {
                 "schema": {}
@@ -105,7 +112,7 @@
             }
           },
           "400": {
-            "description": "Datos inválidos o mal formados",
+            "description": "**Faltan datos o están mal escritos.** El mensaje dice exactamente cuál dato corregir.",
             "content": {
               "application/json": {
                 "schema": {
@@ -115,7 +122,7 @@
             }
           },
           "404": {
-            "description": "El recurso no existe",
+            "description": "**No se encontró.** El código que escribió no existe todavía o tiene un error de escritura.",
             "content": {
               "application/json": {
                 "schema": {
@@ -125,7 +132,7 @@
             }
           },
           "409": {
-            "description": "Conflicto con el estado actual",
+            "description": "**Ese paso no se puede hacer ahora.** Pasa cuando el código ya existe o cuando se intenta un paso fuera de orden.",
             "content": {
               "application/json": {
                 "schema": {
@@ -135,7 +142,7 @@
             }
           },
           "422": {
-            "description": "Regla de negocio no cumplida",
+            "description": "**El negocio no lo permite todavía.** Por ejemplo, un camión sin capacidad suficiente o una carga de alto valor sin autorizar.",
             "content": {
               "application/json": {
                 "schema": {
@@ -150,9 +157,10 @@
     "/unidades": {
       "post": {
         "tags": [
-          "Catálogos"
+          "1. Registros básicos"
         ],
-        "summary": "Registrar unidad de transporte",
+        "summary": "Registrar una unidad de transporte (camión)",
+        "description": "Da de alta un camión o vehículo de carga con lo que puede cargar.\n\n**Para qué sirve:** al asignar un camión a una orden, el sistema comprueba que la carga le quepa.",
         "operationId": "registrar_unidad_unidades_post",
         "requestBody": {
           "content": {
@@ -166,7 +174,7 @@
         },
         "responses": {
           "201": {
-            "description": "Successful Response",
+            "description": "Todo salió bien y quedó registrado.",
             "content": {
               "application/json": {
                 "schema": {
@@ -176,7 +184,7 @@
             }
           },
           "400": {
-            "description": "Datos inválidos o mal formados",
+            "description": "**Faltan datos o están mal escritos.** El mensaje dice exactamente cuál dato corregir.",
             "content": {
               "application/json": {
                 "schema": {
@@ -186,7 +194,7 @@
             }
           },
           "404": {
-            "description": "El recurso no existe",
+            "description": "**No se encontró.** El código que escribió no existe todavía o tiene un error de escritura.",
             "content": {
               "application/json": {
                 "schema": {
@@ -196,7 +204,7 @@
             }
           },
           "409": {
-            "description": "Conflicto con el estado actual",
+            "description": "**Ese paso no se puede hacer ahora.** Pasa cuando el código ya existe o cuando se intenta un paso fuera de orden.",
             "content": {
               "application/json": {
                 "schema": {
@@ -206,7 +214,7 @@
             }
           },
           "422": {
-            "description": "Regla de negocio no cumplida",
+            "description": "**El negocio no lo permite todavía.** Por ejemplo, un camión sin capacidad suficiente o una carga de alto valor sin autorizar.",
             "content": {
               "application/json": {
                 "schema": {
@@ -221,9 +229,10 @@
     "/unidades/{unidad_id}": {
       "get": {
         "tags": [
-          "Catálogos"
+          "1. Registros básicos"
         ],
-        "summary": "Consultar unidad",
+        "summary": "Consultar una unidad de transporte",
+        "description": "Muestra los datos de un camión ya registrado.",
         "operationId": "consultar_unidad_unidades__unidad_id__get",
         "parameters": [
           {
@@ -232,13 +241,18 @@
             "required": true,
             "schema": {
               "type": "string",
+              "description": "Código de la unidad",
+              "examples": [
+                "UNI-001"
+              ],
               "title": "Unidad Id"
-            }
+            },
+            "description": "Código de la unidad"
           }
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Todo salió bien.",
             "content": {
               "application/json": {
                 "schema": {}
@@ -246,7 +260,7 @@
             }
           },
           "400": {
-            "description": "Datos inválidos o mal formados",
+            "description": "**Faltan datos o están mal escritos.** El mensaje dice exactamente cuál dato corregir.",
             "content": {
               "application/json": {
                 "schema": {
@@ -256,7 +270,7 @@
             }
           },
           "404": {
-            "description": "El recurso no existe",
+            "description": "**No se encontró.** El código que escribió no existe todavía o tiene un error de escritura.",
             "content": {
               "application/json": {
                 "schema": {
@@ -266,7 +280,7 @@
             }
           },
           "409": {
-            "description": "Conflicto con el estado actual",
+            "description": "**Ese paso no se puede hacer ahora.** Pasa cuando el código ya existe o cuando se intenta un paso fuera de orden.",
             "content": {
               "application/json": {
                 "schema": {
@@ -276,7 +290,7 @@
             }
           },
           "422": {
-            "description": "Regla de negocio no cumplida",
+            "description": "**El negocio no lo permite todavía.** Por ejemplo, un camión sin capacidad suficiente o una carga de alto valor sin autorizar.",
             "content": {
               "application/json": {
                 "schema": {
@@ -291,9 +305,10 @@
     "/operadores": {
       "post": {
         "tags": [
-          "Catálogos"
+          "1. Registros básicos"
         ],
-        "summary": "Registrar operador",
+        "summary": "Registrar un operador (conductor)",
+        "description": "Da de alta a la persona que conduce.",
         "operationId": "registrar_operador_operadores_post",
         "requestBody": {
           "content": {
@@ -307,7 +322,7 @@
         },
         "responses": {
           "201": {
-            "description": "Successful Response",
+            "description": "Todo salió bien y quedó registrado.",
             "content": {
               "application/json": {
                 "schema": {
@@ -317,7 +332,7 @@
             }
           },
           "400": {
-            "description": "Datos inválidos o mal formados",
+            "description": "**Faltan datos o están mal escritos.** El mensaje dice exactamente cuál dato corregir.",
             "content": {
               "application/json": {
                 "schema": {
@@ -327,7 +342,7 @@
             }
           },
           "404": {
-            "description": "El recurso no existe",
+            "description": "**No se encontró.** El código que escribió no existe todavía o tiene un error de escritura.",
             "content": {
               "application/json": {
                 "schema": {
@@ -337,7 +352,7 @@
             }
           },
           "409": {
-            "description": "Conflicto con el estado actual",
+            "description": "**Ese paso no se puede hacer ahora.** Pasa cuando el código ya existe o cuando se intenta un paso fuera de orden.",
             "content": {
               "application/json": {
                 "schema": {
@@ -347,7 +362,7 @@
             }
           },
           "422": {
-            "description": "Regla de negocio no cumplida",
+            "description": "**El negocio no lo permite todavía.** Por ejemplo, un camión sin capacidad suficiente o una carga de alto valor sin autorizar.",
             "content": {
               "application/json": {
                 "schema": {
@@ -362,9 +377,10 @@
     "/operadores/{operador_id}": {
       "get": {
         "tags": [
-          "Catálogos"
+          "1. Registros básicos"
         ],
-        "summary": "Consultar operador",
+        "summary": "Consultar un operador",
+        "description": "Muestra los datos de un operador ya registrado y si está disponible.",
         "operationId": "consultar_operador_operadores__operador_id__get",
         "parameters": [
           {
@@ -373,13 +389,18 @@
             "required": true,
             "schema": {
               "type": "string",
+              "description": "Código del operador",
+              "examples": [
+                "OPE-001"
+              ],
               "title": "Operador Id"
-            }
+            },
+            "description": "Código del operador"
           }
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Todo salió bien.",
             "content": {
               "application/json": {
                 "schema": {}
@@ -387,7 +408,7 @@
             }
           },
           "400": {
-            "description": "Datos inválidos o mal formados",
+            "description": "**Faltan datos o están mal escritos.** El mensaje dice exactamente cuál dato corregir.",
             "content": {
               "application/json": {
                 "schema": {
@@ -397,7 +418,7 @@
             }
           },
           "404": {
-            "description": "El recurso no existe",
+            "description": "**No se encontró.** El código que escribió no existe todavía o tiene un error de escritura.",
             "content": {
               "application/json": {
                 "schema": {
@@ -407,7 +428,7 @@
             }
           },
           "409": {
-            "description": "Conflicto con el estado actual",
+            "description": "**Ese paso no se puede hacer ahora.** Pasa cuando el código ya existe o cuando se intenta un paso fuera de orden.",
             "content": {
               "application/json": {
                 "schema": {
@@ -417,7 +438,7 @@
             }
           },
           "422": {
-            "description": "Regla de negocio no cumplida",
+            "description": "**El negocio no lo permite todavía.** Por ejemplo, un camión sin capacidad suficiente o una carga de alto valor sin autorizar.",
             "content": {
               "application/json": {
                 "schema": {
@@ -432,9 +453,10 @@
     "/operadores/{operador_id}/disponibilidad": {
       "put": {
         "tags": [
-          "Catálogos"
+          "1. Registros básicos"
         ],
-        "summary": "Cambiar disponibilidad",
+        "summary": "Marcar si un operador está disponible",
+        "description": "Cambia si el operador puede recibir trabajo. Un operador **no disponible** no puede asignarse a ninguna orden.",
         "operationId": "cambiar_disponibilidad_operadores__operador_id__disponibilidad_put",
         "parameters": [
           {
@@ -443,8 +465,13 @@
             "required": true,
             "schema": {
               "type": "string",
+              "description": "Código del operador",
+              "examples": [
+                "OPE-001"
+              ],
               "title": "Operador Id"
-            }
+            },
+            "description": "Código del operador"
           }
         ],
         "requestBody": {
@@ -459,7 +486,7 @@
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Todo salió bien.",
             "content": {
               "application/json": {
                 "schema": {
@@ -469,7 +496,7 @@
             }
           },
           "400": {
-            "description": "Datos inválidos o mal formados",
+            "description": "**Faltan datos o están mal escritos.** El mensaje dice exactamente cuál dato corregir.",
             "content": {
               "application/json": {
                 "schema": {
@@ -479,7 +506,7 @@
             }
           },
           "404": {
-            "description": "El recurso no existe",
+            "description": "**No se encontró.** El código que escribió no existe todavía o tiene un error de escritura.",
             "content": {
               "application/json": {
                 "schema": {
@@ -489,7 +516,7 @@
             }
           },
           "409": {
-            "description": "Conflicto con el estado actual",
+            "description": "**Ese paso no se puede hacer ahora.** Pasa cuando el código ya existe o cuando se intenta un paso fuera de orden.",
             "content": {
               "application/json": {
                 "schema": {
@@ -499,7 +526,7 @@
             }
           },
           "422": {
-            "description": "Regla de negocio no cumplida",
+            "description": "**El negocio no lo permite todavía.** Por ejemplo, un camión sin capacidad suficiente o una carga de alto valor sin autorizar.",
             "content": {
               "application/json": {
                 "schema": {
@@ -514,9 +541,10 @@
     "/cotizaciones": {
       "post": {
         "tags": [
-          "Cotizaciones"
+          "2. Cotizaciones"
         ],
-        "summary": "Solicitar cotización (US-01)",
+        "summary": "Pedir una cotización",
+        "description": "El cliente pide que le digan cuánto costaría transportar su mercancía.\n\n**Qué necesita:** el código del cliente (ya registrado), de dónde a dónde va la carga, qué es y para cuándo.\n\n**Qué recibe:** un **número de cotización**. Guárdelo: lo usará en los siguientes pasos.\n\n*Referencia técnica: historia US-01.*",
         "operationId": "solicitar_cotizacion_cotizaciones_post",
         "requestBody": {
           "content": {
@@ -530,7 +558,7 @@
         },
         "responses": {
           "201": {
-            "description": "Successful Response",
+            "description": "Todo salió bien y quedó registrado.",
             "content": {
               "application/json": {
                 "schema": {
@@ -540,7 +568,7 @@
             }
           },
           "400": {
-            "description": "Datos inválidos o mal formados",
+            "description": "**Faltan datos o están mal escritos.** El mensaje dice exactamente cuál dato corregir.",
             "content": {
               "application/json": {
                 "schema": {
@@ -550,7 +578,7 @@
             }
           },
           "404": {
-            "description": "El recurso no existe",
+            "description": "**No se encontró.** El código que escribió no existe todavía o tiene un error de escritura.",
             "content": {
               "application/json": {
                 "schema": {
@@ -560,7 +588,7 @@
             }
           },
           "409": {
-            "description": "Conflicto con el estado actual",
+            "description": "**Ese paso no se puede hacer ahora.** Pasa cuando el código ya existe o cuando se intenta un paso fuera de orden.",
             "content": {
               "application/json": {
                 "schema": {
@@ -570,7 +598,7 @@
             }
           },
           "422": {
-            "description": "Regla de negocio no cumplida",
+            "description": "**El negocio no lo permite todavía.** Por ejemplo, un camión sin capacidad suficiente o una carga de alto valor sin autorizar.",
             "content": {
               "application/json": {
                 "schema": {
@@ -585,9 +613,10 @@
     "/cotizaciones/{cotizacion_id}": {
       "get": {
         "tags": [
-          "Cotizaciones"
+          "2. Cotizaciones"
         ],
-        "summary": "Consultar cotización",
+        "summary": "Consultar una cotización",
+        "description": "Muestra los datos de la cotización, su precio (si ya lo tiene) y en qué situación está.",
         "operationId": "consultar_cotizacion_cotizaciones__cotizacion_id__get",
         "parameters": [
           {
@@ -596,13 +625,18 @@
             "required": true,
             "schema": {
               "type": "string",
+              "description": "Número de cotización que recibió al pedirla",
+              "examples": [
+                "PEGUE-AQUÍ-EL-NÚMERO-DE-COTIZACIÓN"
+              ],
               "title": "Cotizacion Id"
-            }
+            },
+            "description": "Número de cotización que recibió al pedirla"
           }
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Todo salió bien.",
             "content": {
               "application/json": {
                 "schema": {}
@@ -610,7 +644,7 @@
             }
           },
           "400": {
-            "description": "Datos inválidos o mal formados",
+            "description": "**Faltan datos o están mal escritos.** El mensaje dice exactamente cuál dato corregir.",
             "content": {
               "application/json": {
                 "schema": {
@@ -620,7 +654,7 @@
             }
           },
           "404": {
-            "description": "El recurso no existe",
+            "description": "**No se encontró.** El código que escribió no existe todavía o tiene un error de escritura.",
             "content": {
               "application/json": {
                 "schema": {
@@ -630,7 +664,7 @@
             }
           },
           "409": {
-            "description": "Conflicto con el estado actual",
+            "description": "**Ese paso no se puede hacer ahora.** Pasa cuando el código ya existe o cuando se intenta un paso fuera de orden.",
             "content": {
               "application/json": {
                 "schema": {
@@ -640,7 +674,7 @@
             }
           },
           "422": {
-            "description": "Regla de negocio no cumplida",
+            "description": "**El negocio no lo permite todavía.** Por ejemplo, un camión sin capacidad suficiente o una carga de alto valor sin autorizar.",
             "content": {
               "application/json": {
                 "schema": {
@@ -655,9 +689,10 @@
     "/cotizaciones/{cotizacion_id}/solicitud": {
       "put": {
         "tags": [
-          "Cotizaciones"
+          "2. Cotizaciones"
         ],
-        "summary": "Modificar la solicitud mientras está en proceso (US-03)",
+        "summary": "Corregir los datos de la solicitud",
+        "description": "Cambia los datos que el cliente pidió (por ejemplo, la fecha o el peso).\n\n**Importante:** solo se puede mientras la cotización está *en proceso* (el cliente aún no la acepta). Después de corregirla, Ventas debe volver a poner el precio.\n\n*Referencia técnica: historia US-03.*",
         "operationId": "modificar_cotizacion_cotizaciones__cotizacion_id__solicitud_put",
         "parameters": [
           {
@@ -666,8 +701,13 @@
             "required": true,
             "schema": {
               "type": "string",
+              "description": "Número de cotización que recibió al pedirla",
+              "examples": [
+                "PEGUE-AQUÍ-EL-NÚMERO-DE-COTIZACIÓN"
+              ],
               "title": "Cotizacion Id"
-            }
+            },
+            "description": "Número de cotización que recibió al pedirla"
           }
         ],
         "requestBody": {
@@ -682,7 +722,7 @@
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Todo salió bien.",
             "content": {
               "application/json": {
                 "schema": {
@@ -692,7 +732,7 @@
             }
           },
           "400": {
-            "description": "Datos inválidos o mal formados",
+            "description": "**Faltan datos o están mal escritos.** El mensaje dice exactamente cuál dato corregir.",
             "content": {
               "application/json": {
                 "schema": {
@@ -702,7 +742,7 @@
             }
           },
           "404": {
-            "description": "El recurso no existe",
+            "description": "**No se encontró.** El código que escribió no existe todavía o tiene un error de escritura.",
             "content": {
               "application/json": {
                 "schema": {
@@ -712,7 +752,7 @@
             }
           },
           "409": {
-            "description": "Conflicto con el estado actual",
+            "description": "**Ese paso no se puede hacer ahora.** Pasa cuando el código ya existe o cuando se intenta un paso fuera de orden.",
             "content": {
               "application/json": {
                 "schema": {
@@ -722,7 +762,7 @@
             }
           },
           "422": {
-            "description": "Regla de negocio no cumplida",
+            "description": "**El negocio no lo permite todavía.** Por ejemplo, un camión sin capacidad suficiente o una carga de alto valor sin autorizar.",
             "content": {
               "application/json": {
                 "schema": {
@@ -737,9 +777,10 @@
     "/cotizaciones/{cotizacion_id}/importe": {
       "put": {
         "tags": [
-          "Cotizaciones"
+          "2. Cotizaciones"
         ],
-        "summary": "Elaborar la cotización con su importe (US-02)",
+        "summary": "Poner el precio a la cotización",
+        "description": "Ventas escribe cuánto costará el servicio, en pesos mexicanos.\n\n**Después de esto** el cliente ya puede aceptar o rechazar.\n\n*Referencia técnica: historia US-02.*",
         "operationId": "elaborar_cotizacion_cotizaciones__cotizacion_id__importe_put",
         "parameters": [
           {
@@ -748,8 +789,13 @@
             "required": true,
             "schema": {
               "type": "string",
+              "description": "Número de cotización que recibió al pedirla",
+              "examples": [
+                "PEGUE-AQUÍ-EL-NÚMERO-DE-COTIZACIÓN"
+              ],
               "title": "Cotizacion Id"
-            }
+            },
+            "description": "Número de cotización que recibió al pedirla"
           }
         ],
         "requestBody": {
@@ -764,7 +810,7 @@
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Todo salió bien.",
             "content": {
               "application/json": {
                 "schema": {
@@ -774,7 +820,7 @@
             }
           },
           "400": {
-            "description": "Datos inválidos o mal formados",
+            "description": "**Faltan datos o están mal escritos.** El mensaje dice exactamente cuál dato corregir.",
             "content": {
               "application/json": {
                 "schema": {
@@ -784,7 +830,7 @@
             }
           },
           "404": {
-            "description": "El recurso no existe",
+            "description": "**No se encontró.** El código que escribió no existe todavía o tiene un error de escritura.",
             "content": {
               "application/json": {
                 "schema": {
@@ -794,7 +840,7 @@
             }
           },
           "409": {
-            "description": "Conflicto con el estado actual",
+            "description": "**Ese paso no se puede hacer ahora.** Pasa cuando el código ya existe o cuando se intenta un paso fuera de orden.",
             "content": {
               "application/json": {
                 "schema": {
@@ -804,7 +850,7 @@
             }
           },
           "422": {
-            "description": "Regla de negocio no cumplida",
+            "description": "**El negocio no lo permite todavía.** Por ejemplo, un camión sin capacidad suficiente o una carga de alto valor sin autorizar.",
             "content": {
               "application/json": {
                 "schema": {
@@ -819,9 +865,10 @@
     "/cotizaciones/{cotizacion_id}/respuesta": {
       "post": {
         "tags": [
-          "Cotizaciones"
+          "2. Cotizaciones"
         ],
-        "summary": "El cliente acepta o rechaza la cotización (US-17)",
+        "summary": "El cliente acepta o rechaza la cotización",
+        "description": "Registra la decisión del cliente: **ACEPTA** o **RECHAZA**.\n\n**Antes de usarla:** Ventas debe haber puesto el precio. Si no, el sistema avisará que todavía no se puede responder.\n\n*Referencia técnica: historia US-17.*",
         "operationId": "responder_cotizacion_cotizaciones__cotizacion_id__respuesta_post",
         "parameters": [
           {
@@ -830,8 +877,13 @@
             "required": true,
             "schema": {
               "type": "string",
+              "description": "Número de cotización que recibió al pedirla",
+              "examples": [
+                "PEGUE-AQUÍ-EL-NÚMERO-DE-COTIZACIÓN"
+              ],
               "title": "Cotizacion Id"
-            }
+            },
+            "description": "Número de cotización que recibió al pedirla"
           }
         ],
         "requestBody": {
@@ -846,7 +898,7 @@
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Todo salió bien.",
             "content": {
               "application/json": {
                 "schema": {
@@ -856,7 +908,7 @@
             }
           },
           "400": {
-            "description": "Datos inválidos o mal formados",
+            "description": "**Faltan datos o están mal escritos.** El mensaje dice exactamente cuál dato corregir.",
             "content": {
               "application/json": {
                 "schema": {
@@ -866,7 +918,7 @@
             }
           },
           "404": {
-            "description": "El recurso no existe",
+            "description": "**No se encontró.** El código que escribió no existe todavía o tiene un error de escritura.",
             "content": {
               "application/json": {
                 "schema": {
@@ -876,7 +928,7 @@
             }
           },
           "409": {
-            "description": "Conflicto con el estado actual",
+            "description": "**Ese paso no se puede hacer ahora.** Pasa cuando el código ya existe o cuando se intenta un paso fuera de orden.",
             "content": {
               "application/json": {
                 "schema": {
@@ -886,7 +938,7 @@
             }
           },
           "422": {
-            "description": "Regla de negocio no cumplida",
+            "description": "**El negocio no lo permite todavía.** Por ejemplo, un camión sin capacidad suficiente o una carga de alto valor sin autorizar.",
             "content": {
               "application/json": {
                 "schema": {
@@ -901,9 +953,10 @@
     "/ordenes": {
       "post": {
         "tags": [
-          "Órdenes de servicio"
+          "3. Órdenes de servicio"
         ],
-        "summary": "Generar orden desde una cotización aceptada (US-05/06)",
+        "summary": "Crear la orden de servicio",
+        "description": "Convierte una cotización **aceptada** en una orden de servicio: el trabajo que se va a realizar.\n\n**Qué recibe:** un **número de orden**. Guárdelo: lo usará en todos los pasos del viaje.\n\n*Referencia técnica: historias US-05 y US-06.*",
         "operationId": "generar_orden_ordenes_post",
         "requestBody": {
           "required": true,
@@ -917,7 +970,7 @@
         },
         "responses": {
           "201": {
-            "description": "Successful Response",
+            "description": "Todo salió bien y quedó registrado.",
             "content": {
               "application/json": {
                 "schema": {
@@ -927,7 +980,7 @@
             }
           },
           "400": {
-            "description": "Datos inválidos o mal formados",
+            "description": "**Faltan datos o están mal escritos.** El mensaje dice exactamente cuál dato corregir.",
             "content": {
               "application/json": {
                 "schema": {
@@ -937,7 +990,7 @@
             }
           },
           "404": {
-            "description": "El recurso no existe",
+            "description": "**No se encontró.** El código que escribió no existe todavía o tiene un error de escritura.",
             "content": {
               "application/json": {
                 "schema": {
@@ -947,7 +1000,7 @@
             }
           },
           "409": {
-            "description": "Conflicto con el estado actual",
+            "description": "**Ese paso no se puede hacer ahora.** Pasa cuando el código ya existe o cuando se intenta un paso fuera de orden.",
             "content": {
               "application/json": {
                 "schema": {
@@ -957,7 +1010,7 @@
             }
           },
           "422": {
-            "description": "Regla de negocio no cumplida",
+            "description": "**El negocio no lo permite todavía.** Por ejemplo, un camión sin capacidad suficiente o una carga de alto valor sin autorizar.",
             "content": {
               "application/json": {
                 "schema": {
@@ -970,9 +1023,10 @@
       },
       "get": {
         "tags": [
-          "Órdenes de servicio"
+          "3. Órdenes de servicio"
         ],
-        "summary": "Listar órdenes (filtro opcional por estado)",
+        "summary": "Ver la lista de órdenes",
+        "description": "Lista las órdenes de servicio. Puede filtrarlas por situación (por ejemplo `EN_TRANSITO`).",
         "operationId": "listar_ordenes_ordenes_get",
         "parameters": [
           {
@@ -988,8 +1042,13 @@
                   "type": "null"
                 }
               ],
+              "description": "Opcional. Muestra solo las órdenes en esta situación. Ejemplo: EN_TRANSITO",
+              "examples": [
+                "EN_TRANSITO"
+              ],
               "title": "Estado"
-            }
+            },
+            "description": "Opcional. Muestra solo las órdenes en esta situación. Ejemplo: EN_TRANSITO"
           },
           {
             "name": "limite",
@@ -999,14 +1058,19 @@
               "type": "integer",
               "maximum": 500,
               "minimum": 1,
+              "description": "Cuántas órdenes mostrar como máximo (de 1 a 500)",
+              "examples": [
+                50
+              ],
               "default": 50,
               "title": "Limite"
-            }
+            },
+            "description": "Cuántas órdenes mostrar como máximo (de 1 a 500)"
           }
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Todo salió bien.",
             "content": {
               "application/json": {
                 "schema": {}
@@ -1014,7 +1078,7 @@
             }
           },
           "400": {
-            "description": "Datos inválidos o mal formados",
+            "description": "**Faltan datos o están mal escritos.** El mensaje dice exactamente cuál dato corregir.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1024,7 +1088,7 @@
             }
           },
           "404": {
-            "description": "El recurso no existe",
+            "description": "**No se encontró.** El código que escribió no existe todavía o tiene un error de escritura.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1034,7 +1098,7 @@
             }
           },
           "409": {
-            "description": "Conflicto con el estado actual",
+            "description": "**Ese paso no se puede hacer ahora.** Pasa cuando el código ya existe o cuando se intenta un paso fuera de orden.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1044,7 +1108,7 @@
             }
           },
           "422": {
-            "description": "Regla de negocio no cumplida",
+            "description": "**El negocio no lo permite todavía.** Por ejemplo, un camión sin capacidad suficiente o una carga de alto valor sin autorizar.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1059,9 +1123,10 @@
     "/ordenes/{orden_id}/estado": {
       "get": {
         "tags": [
-          "Órdenes de servicio"
+          "3. Órdenes de servicio"
         ],
-        "summary": "Consultar estado, historial e incidencias (US-14)",
+        "summary": "Consultar el estado de una orden",
+        "description": "Dice en qué paso va el servicio, qué ha pasado hasta ahora (historial), si hubo retrasos o problemas y qué se puede hacer a continuación. Pensada para **Atención al Cliente**.\n\n*Referencia técnica: historia US-14.*",
         "operationId": "consultar_estado_ordenes__orden_id__estado_get",
         "parameters": [
           {
@@ -1070,13 +1135,18 @@
             "required": true,
             "schema": {
               "type": "string",
+              "description": "Número de orden que recibió al crearla",
+              "examples": [
+                "PEGUE-AQUÍ-EL-NÚMERO-DE-ORDEN"
+              ],
               "title": "Orden Id"
-            }
+            },
+            "description": "Número de orden que recibió al crearla"
           }
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Todo salió bien.",
             "content": {
               "application/json": {
                 "schema": {}
@@ -1084,7 +1154,7 @@
             }
           },
           "400": {
-            "description": "Datos inválidos o mal formados",
+            "description": "**Faltan datos o están mal escritos.** El mensaje dice exactamente cuál dato corregir.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1094,7 +1164,7 @@
             }
           },
           "404": {
-            "description": "El recurso no existe",
+            "description": "**No se encontró.** El código que escribió no existe todavía o tiene un error de escritura.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1104,7 +1174,7 @@
             }
           },
           "409": {
-            "description": "Conflicto con el estado actual",
+            "description": "**Ese paso no se puede hacer ahora.** Pasa cuando el código ya existe o cuando se intenta un paso fuera de orden.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1114,7 +1184,7 @@
             }
           },
           "422": {
-            "description": "Regla de negocio no cumplida",
+            "description": "**El negocio no lo permite todavía.** Por ejemplo, un camión sin capacidad suficiente o una carga de alto valor sin autorizar.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1129,9 +1199,10 @@
     "/ordenes/{orden_id}/asignacion": {
       "post": {
         "tags": [
-          "Órdenes de servicio"
+          "3. Órdenes de servicio"
         ],
-        "summary": "Asignar o reasignar unidad y operador (US-07/08)",
+        "summary": "Asignar camión y operador",
+        "description": "Operaciones elige qué camión y qué operador harán el servicio.\n\n**El sistema revisa que:** al camión le quepa la carga y que el operador esté disponible. Si la carga es de alto valor, antes debe estar autorizada.\n\nTambién sirve para **cambiar** de operador si el primero no puede.\n\n*Referencia técnica: historias US-07 y US-08.*",
         "operationId": "asignar_recursos_ordenes__orden_id__asignacion_post",
         "parameters": [
           {
@@ -1140,8 +1211,13 @@
             "required": true,
             "schema": {
               "type": "string",
+              "description": "Número de orden que recibió al crearla",
+              "examples": [
+                "PEGUE-AQUÍ-EL-NÚMERO-DE-ORDEN"
+              ],
               "title": "Orden Id"
-            }
+            },
+            "description": "Número de orden que recibió al crearla"
           }
         ],
         "requestBody": {
@@ -1156,7 +1232,7 @@
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Todo salió bien.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1166,7 +1242,7 @@
             }
           },
           "400": {
-            "description": "Datos inválidos o mal formados",
+            "description": "**Faltan datos o están mal escritos.** El mensaje dice exactamente cuál dato corregir.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1176,7 +1252,7 @@
             }
           },
           "404": {
-            "description": "El recurso no existe",
+            "description": "**No se encontró.** El código que escribió no existe todavía o tiene un error de escritura.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1186,7 +1262,7 @@
             }
           },
           "409": {
-            "description": "Conflicto con el estado actual",
+            "description": "**Ese paso no se puede hacer ahora.** Pasa cuando el código ya existe o cuando se intenta un paso fuera de orden.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1196,7 +1272,7 @@
             }
           },
           "422": {
-            "description": "Regla de negocio no cumplida",
+            "description": "**El negocio no lo permite todavía.** Por ejemplo, un camión sin capacidad suficiente o una carga de alto valor sin autorizar.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1211,9 +1287,10 @@
     "/ordenes/{orden_id}/autorizacion-alto-valor": {
       "post": {
         "tags": [
-          "Órdenes de servicio"
+          "3. Órdenes de servicio"
         ],
-        "summary": "Autorizar carga de alto valor (S-02 / US-16)",
+        "summary": "Autorizar una carga de alto valor",
+        "description": "Las cargas de mucho valor necesitan permiso de Operaciones antes de asignarles camión y operador. Aquí se registra quién lo autoriza.\n\n*Referencia técnica: historia US-16.*",
         "operationId": "autorizar_alto_valor_ordenes__orden_id__autorizacion_alto_valor_post",
         "parameters": [
           {
@@ -1222,8 +1299,13 @@
             "required": true,
             "schema": {
               "type": "string",
+              "description": "Número de orden que recibió al crearla",
+              "examples": [
+                "PEGUE-AQUÍ-EL-NÚMERO-DE-ORDEN"
+              ],
               "title": "Orden Id"
-            }
+            },
+            "description": "Número de orden que recibió al crearla"
           }
         ],
         "requestBody": {
@@ -1238,7 +1320,7 @@
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Todo salió bien.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1248,7 +1330,7 @@
             }
           },
           "400": {
-            "description": "Datos inválidos o mal formados",
+            "description": "**Faltan datos o están mal escritos.** El mensaje dice exactamente cuál dato corregir.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1258,7 +1340,7 @@
             }
           },
           "404": {
-            "description": "El recurso no existe",
+            "description": "**No se encontró.** El código que escribió no existe todavía o tiene un error de escritura.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1268,7 +1350,7 @@
             }
           },
           "409": {
-            "description": "Conflicto con el estado actual",
+            "description": "**Ese paso no se puede hacer ahora.** Pasa cuando el código ya existe o cuando se intenta un paso fuera de orden.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1278,7 +1360,7 @@
             }
           },
           "422": {
-            "description": "Regla de negocio no cumplida",
+            "description": "**El negocio no lo permite todavía.** Por ejemplo, un camión sin capacidad suficiente o una carga de alto valor sin autorizar.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1293,9 +1375,10 @@
     "/ordenes/{orden_id}/recepcion": {
       "post": {
         "tags": [
-          "Órdenes de servicio"
+          "3. Órdenes de servicio"
         ],
-        "summary": "Registrar recepción de la mercancía con evidencia (US-09)",
+        "summary": "Registrar que se recogió la mercancía",
+        "description": "El operador confirma que recibió la mercancía y adjunta una foto o documento como comprobante.\n\n*Referencia técnica: historia US-09.*",
         "operationId": "registrar_recepcion_ordenes__orden_id__recepcion_post",
         "parameters": [
           {
@@ -1304,8 +1387,13 @@
             "required": true,
             "schema": {
               "type": "string",
+              "description": "Número de orden que recibió al crearla",
+              "examples": [
+                "PEGUE-AQUÍ-EL-NÚMERO-DE-ORDEN"
+              ],
               "title": "Orden Id"
-            }
+            },
+            "description": "Número de orden que recibió al crearla"
           }
         ],
         "requestBody": {
@@ -1320,7 +1408,7 @@
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Todo salió bien.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1330,7 +1418,7 @@
             }
           },
           "400": {
-            "description": "Datos inválidos o mal formados",
+            "description": "**Faltan datos o están mal escritos.** El mensaje dice exactamente cuál dato corregir.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1340,7 +1428,7 @@
             }
           },
           "404": {
-            "description": "El recurso no existe",
+            "description": "**No se encontró.** El código que escribió no existe todavía o tiene un error de escritura.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1350,7 +1438,7 @@
             }
           },
           "409": {
-            "description": "Conflicto con el estado actual",
+            "description": "**Ese paso no se puede hacer ahora.** Pasa cuando el código ya existe o cuando se intenta un paso fuera de orden.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1360,7 +1448,7 @@
             }
           },
           "422": {
-            "description": "Regla de negocio no cumplida",
+            "description": "**El negocio no lo permite todavía.** Por ejemplo, un camión sin capacidad suficiente o una carga de alto valor sin autorizar.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1375,9 +1463,10 @@
     "/ordenes/{orden_id}/traslado": {
       "post": {
         "tags": [
-          "Órdenes de servicio"
+          "3. Órdenes de servicio"
         ],
-        "summary": "Iniciar traslado",
+        "summary": "Registrar que salió el camión",
+        "description": "Indica que el viaje comenzó. No necesita datos: solo escriba el número de orden.",
         "operationId": "iniciar_traslado_ordenes__orden_id__traslado_post",
         "parameters": [
           {
@@ -1386,13 +1475,18 @@
             "required": true,
             "schema": {
               "type": "string",
+              "description": "Número de orden que recibió al crearla",
+              "examples": [
+                "PEGUE-AQUÍ-EL-NÚMERO-DE-ORDEN"
+              ],
               "title": "Orden Id"
-            }
+            },
+            "description": "Número de orden que recibió al crearla"
           }
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Todo salió bien.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1402,7 +1496,7 @@
             }
           },
           "400": {
-            "description": "Datos inválidos o mal formados",
+            "description": "**Faltan datos o están mal escritos.** El mensaje dice exactamente cuál dato corregir.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1412,7 +1506,7 @@
             }
           },
           "404": {
-            "description": "El recurso no existe",
+            "description": "**No se encontró.** El código que escribió no existe todavía o tiene un error de escritura.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1422,7 +1516,7 @@
             }
           },
           "409": {
-            "description": "Conflicto con el estado actual",
+            "description": "**Ese paso no se puede hacer ahora.** Pasa cuando el código ya existe o cuando se intenta un paso fuera de orden.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1432,7 +1526,7 @@
             }
           },
           "422": {
-            "description": "Regla de negocio no cumplida",
+            "description": "**El negocio no lo permite todavía.** Por ejemplo, un camión sin capacidad suficiente o una carga de alto valor sin autorizar.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1447,9 +1541,10 @@
     "/ordenes/{orden_id}/llegada": {
       "post": {
         "tags": [
-          "Órdenes de servicio"
+          "3. Órdenes de servicio"
         ],
-        "summary": "Registrar llegada a destino",
+        "summary": "Registrar que el camión llegó al destino",
+        "description": "Indica que la unidad ya llegó al lugar de entrega. No necesita datos: solo escriba el número de orden.",
         "operationId": "registrar_llegada_ordenes__orden_id__llegada_post",
         "parameters": [
           {
@@ -1458,13 +1553,18 @@
             "required": true,
             "schema": {
               "type": "string",
+              "description": "Número de orden que recibió al crearla",
+              "examples": [
+                "PEGUE-AQUÍ-EL-NÚMERO-DE-ORDEN"
+              ],
               "title": "Orden Id"
-            }
+            },
+            "description": "Número de orden que recibió al crearla"
           }
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Todo salió bien.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1474,7 +1574,7 @@
             }
           },
           "400": {
-            "description": "Datos inválidos o mal formados",
+            "description": "**Faltan datos o están mal escritos.** El mensaje dice exactamente cuál dato corregir.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1484,7 +1584,7 @@
             }
           },
           "404": {
-            "description": "El recurso no existe",
+            "description": "**No se encontró.** El código que escribió no existe todavía o tiene un error de escritura.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1494,7 +1594,7 @@
             }
           },
           "409": {
-            "description": "Conflicto con el estado actual",
+            "description": "**Ese paso no se puede hacer ahora.** Pasa cuando el código ya existe o cuando se intenta un paso fuera de orden.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1504,7 +1604,7 @@
             }
           },
           "422": {
-            "description": "Regla de negocio no cumplida",
+            "description": "**El negocio no lo permite todavía.** Por ejemplo, un camión sin capacidad suficiente o una carga de alto valor sin autorizar.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1519,9 +1619,10 @@
     "/ordenes/{orden_id}/entrega": {
       "post": {
         "tags": [
-          "Órdenes de servicio"
+          "3. Órdenes de servicio"
         ],
-        "summary": "Registrar entrega o incidencia en destino (US-11/12/13)",
+        "summary": "Registrar la entrega (o el problema para entregar)",
+        "description": "Cierra el servicio: quién recibió la mercancía y una foto o documento como comprobante.\n\n**Si no se pudo entregar** (nadie recibió, dirección incorrecta…), indique el motivo en *incidencia*: el servicio **no** se marca como entregado y Operaciones lo atiende.\n\n*Referencia técnica: historias US-11, US-12 y US-13.*",
         "operationId": "registrar_entrega_ordenes__orden_id__entrega_post",
         "parameters": [
           {
@@ -1530,8 +1631,13 @@
             "required": true,
             "schema": {
               "type": "string",
+              "description": "Número de orden que recibió al crearla",
+              "examples": [
+                "PEGUE-AQUÍ-EL-NÚMERO-DE-ORDEN"
+              ],
               "title": "Orden Id"
-            }
+            },
+            "description": "Número de orden que recibió al crearla"
           }
         ],
         "requestBody": {
@@ -1546,7 +1652,7 @@
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Todo salió bien.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1556,7 +1662,7 @@
             }
           },
           "400": {
-            "description": "Datos inválidos o mal formados",
+            "description": "**Faltan datos o están mal escritos.** El mensaje dice exactamente cuál dato corregir.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1566,7 +1672,7 @@
             }
           },
           "404": {
-            "description": "El recurso no existe",
+            "description": "**No se encontró.** El código que escribió no existe todavía o tiene un error de escritura.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1576,7 +1682,7 @@
             }
           },
           "409": {
-            "description": "Conflicto con el estado actual",
+            "description": "**Ese paso no se puede hacer ahora.** Pasa cuando el código ya existe o cuando se intenta un paso fuera de orden.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1586,7 +1692,7 @@
             }
           },
           "422": {
-            "description": "Regla de negocio no cumplida",
+            "description": "**El negocio no lo permite todavía.** Por ejemplo, un camión sin capacidad suficiente o una carga de alto valor sin autorizar.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1601,9 +1707,10 @@
     "/ordenes/{orden_id}/incidencias": {
       "post": {
         "tags": [
-          "Órdenes de servicio"
+          "3. Órdenes de servicio"
         ],
-        "summary": "Registrar incidencia durante el servicio (no cambia el estado)",
+        "summary": "Avisar de un problema durante el servicio",
+        "description": "Registra un retraso, una avería u otro problema. **No cambia el paso** en que va el servicio; solo deja constancia para que Operaciones lo vea.\n\n*Referencia técnica: historia US-11.*",
         "operationId": "registrar_incidencia_ordenes__orden_id__incidencias_post",
         "parameters": [
           {
@@ -1612,8 +1719,13 @@
             "required": true,
             "schema": {
               "type": "string",
+              "description": "Número de orden que recibió al crearla",
+              "examples": [
+                "PEGUE-AQUÍ-EL-NÚMERO-DE-ORDEN"
+              ],
               "title": "Orden Id"
-            }
+            },
+            "description": "Número de orden que recibió al crearla"
           }
         ],
         "requestBody": {
@@ -1628,7 +1740,7 @@
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Todo salió bien.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1638,7 +1750,7 @@
             }
           },
           "400": {
-            "description": "Datos inválidos o mal formados",
+            "description": "**Faltan datos o están mal escritos.** El mensaje dice exactamente cuál dato corregir.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1648,7 +1760,7 @@
             }
           },
           "404": {
-            "description": "El recurso no existe",
+            "description": "**No se encontró.** El código que escribió no existe todavía o tiene un error de escritura.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1658,7 +1770,7 @@
             }
           },
           "409": {
-            "description": "Conflicto con el estado actual",
+            "description": "**Ese paso no se puede hacer ahora.** Pasa cuando el código ya existe o cuando se intenta un paso fuera de orden.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1668,7 +1780,7 @@
             }
           },
           "422": {
-            "description": "Regla de negocio no cumplida",
+            "description": "**El negocio no lo permite todavía.** Por ejemplo, un camión sin capacidad suficiente o una carga de alto valor sin autorizar.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1683,9 +1795,10 @@
     "/ordenes/{orden_id}/cancelacion": {
       "post": {
         "tags": [
-          "Órdenes de servicio"
+          "3. Órdenes de servicio"
         ],
-        "summary": "Cancelar el servicio (S-04)",
+        "summary": "Cancelar el servicio",
+        "description": "Cancela una orden que aún no se entregó. Queda anotado **quién** lo pidió y **por qué**.\n\nSolo el área autorizada (normalmente Operaciones) puede confirmar una cancelación.\n\n*Referencia técnica: supuesto S-04 y historia US-05.*",
         "operationId": "cancelar_servicio_ordenes__orden_id__cancelacion_post",
         "parameters": [
           {
@@ -1694,8 +1807,13 @@
             "required": true,
             "schema": {
               "type": "string",
+              "description": "Número de orden que recibió al crearla",
+              "examples": [
+                "PEGUE-AQUÍ-EL-NÚMERO-DE-ORDEN"
+              ],
               "title": "Orden Id"
-            }
+            },
+            "description": "Número de orden que recibió al crearla"
           }
         ],
         "requestBody": {
@@ -1710,7 +1828,7 @@
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Todo salió bien.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1720,7 +1838,7 @@
             }
           },
           "400": {
-            "description": "Datos inválidos o mal formados",
+            "description": "**Faltan datos o están mal escritos.** El mensaje dice exactamente cuál dato corregir.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1730,7 +1848,7 @@
             }
           },
           "404": {
-            "description": "El recurso no existe",
+            "description": "**No se encontró.** El código que escribió no existe todavía o tiene un error de escritura.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1740,7 +1858,7 @@
             }
           },
           "409": {
-            "description": "Conflicto con el estado actual",
+            "description": "**Ese paso no se puede hacer ahora.** Pasa cuando el código ya existe o cuando se intenta un paso fuera de orden.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1750,7 +1868,7 @@
             }
           },
           "422": {
-            "description": "Regla de negocio no cumplida",
+            "description": "**El negocio no lo permite todavía.** Por ejemplo, un camión sin capacidad suficiente o una carga de alto valor sin autorizar.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1765,9 +1883,10 @@
     "/ordenes/{orden_id}/cambios-operativos": {
       "post": {
         "tags": [
-          "Órdenes de servicio"
+          "3. Órdenes de servicio"
         ],
-        "summary": "Solicitar un cambio operativo posterior a la orden (US-04)",
+        "summary": "Pedir un cambio en el servicio",
+        "description": "Pide un cambio que afecta cómo se hará el servicio (por ejemplo, el horario). **Mientras Operaciones no lo revise, el servicio no puede avanzar.**\n\n*Referencia técnica: historia US-04.*",
         "operationId": "solicitar_cambio_ordenes__orden_id__cambios_operativos_post",
         "parameters": [
           {
@@ -1776,8 +1895,13 @@
             "required": true,
             "schema": {
               "type": "string",
+              "description": "Número de orden que recibió al crearla",
+              "examples": [
+                "PEGUE-AQUÍ-EL-NÚMERO-DE-ORDEN"
+              ],
               "title": "Orden Id"
-            }
+            },
+            "description": "Número de orden que recibió al crearla"
           }
         ],
         "requestBody": {
@@ -1792,7 +1916,7 @@
         },
         "responses": {
           "201": {
-            "description": "Successful Response",
+            "description": "Todo salió bien y quedó registrado.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1802,7 +1926,7 @@
             }
           },
           "400": {
-            "description": "Datos inválidos o mal formados",
+            "description": "**Faltan datos o están mal escritos.** El mensaje dice exactamente cuál dato corregir.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1812,7 +1936,7 @@
             }
           },
           "404": {
-            "description": "El recurso no existe",
+            "description": "**No se encontró.** El código que escribió no existe todavía o tiene un error de escritura.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1822,7 +1946,7 @@
             }
           },
           "409": {
-            "description": "Conflicto con el estado actual",
+            "description": "**Ese paso no se puede hacer ahora.** Pasa cuando el código ya existe o cuando se intenta un paso fuera de orden.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1832,7 +1956,7 @@
             }
           },
           "422": {
-            "description": "Regla de negocio no cumplida",
+            "description": "**El negocio no lo permite todavía.** Por ejemplo, un camión sin capacidad suficiente o una carga de alto valor sin autorizar.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1847,9 +1971,10 @@
     "/ordenes/{orden_id}/cambios-operativos/revision": {
       "put": {
         "tags": [
-          "Órdenes de servicio"
+          "3. Órdenes de servicio"
         ],
-        "summary": "Revisar el cambio operativo pendiente",
+        "summary": "Revisar un cambio solicitado",
+        "description": "Operaciones decide si **aprueba** o **rechaza** el cambio pedido. Después, el servicio puede continuar.",
         "operationId": "revisar_cambio_ordenes__orden_id__cambios_operativos_revision_put",
         "parameters": [
           {
@@ -1858,8 +1983,13 @@
             "required": true,
             "schema": {
               "type": "string",
+              "description": "Número de orden que recibió al crearla",
+              "examples": [
+                "PEGUE-AQUÍ-EL-NÚMERO-DE-ORDEN"
+              ],
               "title": "Orden Id"
-            }
+            },
+            "description": "Número de orden que recibió al crearla"
           }
         ],
         "requestBody": {
@@ -1874,7 +2004,7 @@
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Todo salió bien.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1884,7 +2014,7 @@
             }
           },
           "400": {
-            "description": "Datos inválidos o mal formados",
+            "description": "**Faltan datos o están mal escritos.** El mensaje dice exactamente cuál dato corregir.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1894,7 +2024,7 @@
             }
           },
           "404": {
-            "description": "El recurso no existe",
+            "description": "**No se encontró.** El código que escribió no existe todavía o tiene un error de escritura.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1904,7 +2034,7 @@
             }
           },
           "409": {
-            "description": "Conflicto con el estado actual",
+            "description": "**Ese paso no se puede hacer ahora.** Pasa cuando el código ya existe o cuando se intenta un paso fuera de orden.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1914,7 +2044,7 @@
             }
           },
           "422": {
-            "description": "Regla de negocio no cumplida",
+            "description": "**El negocio no lo permite todavía.** Por ejemplo, un camión sin capacidad suficiente o una carga de alto valor sin autorizar.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1929,9 +2059,10 @@
     "/indicadores": {
       "get": {
         "tags": [
-          "Indicadores"
+          "4. Indicadores"
         ],
-        "summary": "Indicadores operativos del periodo (US-15)",
+        "summary": "Ver cifras del periodo (entregas, retrasos, problemas)",
+        "description": "Muestra cuántas entregas se hicieron, cuántas fueron a tiempo, cuántos retrasos y problemas hubo entre dos fechas.\n\n*Referencia técnica: historia US-15.*",
         "operationId": "indicadores_indicadores_get",
         "parameters": [
           {
@@ -1941,8 +2072,13 @@
             "schema": {
               "type": "string",
               "format": "date",
+              "description": "Primer día del periodo. Formato AAAA-MM-DD",
+              "examples": [
+                "2026-01-01"
+              ],
               "title": "Desde"
-            }
+            },
+            "description": "Primer día del periodo. Formato AAAA-MM-DD"
           },
           {
             "name": "hasta",
@@ -1951,13 +2087,18 @@
             "schema": {
               "type": "string",
               "format": "date",
+              "description": "Último día del periodo. Formato AAAA-MM-DD",
+              "examples": [
+                "2026-12-31"
+              ],
               "title": "Hasta"
-            }
+            },
+            "description": "Último día del periodo. Formato AAAA-MM-DD"
           }
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Todo salió bien.",
             "content": {
               "application/json": {
                 "schema": {}
@@ -1965,7 +2106,7 @@
             }
           },
           "400": {
-            "description": "Datos inválidos o mal formados",
+            "description": "**Faltan datos o están mal escritos.** El mensaje dice exactamente cuál dato corregir.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1975,7 +2116,7 @@
             }
           },
           "404": {
-            "description": "El recurso no existe",
+            "description": "**No se encontró.** El código que escribió no existe todavía o tiene un error de escritura.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1985,7 +2126,7 @@
             }
           },
           "409": {
-            "description": "Conflicto con el estado actual",
+            "description": "**Ese paso no se puede hacer ahora.** Pasa cuando el código ya existe o cuando se intenta un paso fuera de orden.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1995,7 +2136,7 @@
             }
           },
           "422": {
-            "description": "Regla de negocio no cumplida",
+            "description": "**El negocio no lo permite todavía.** Por ejemplo, un camión sin capacidad suficiente o una carga de alto valor sin autorizar.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2010,9 +2151,10 @@
     "/health": {
       "get": {
         "tags": [
-          "Operación"
+          "5. Estado del sistema"
         ],
-        "summary": "Estado del servicio",
+        "summary": "Comprobar que el sistema funciona",
+        "description": "Responde «ok» si el sistema está en marcha. No necesita datos.",
         "operationId": "health_health_get",
         "responses": {
           "200": {
@@ -2037,11 +2179,19 @@
         "properties": {
           "unidad_id": {
             "type": "string",
-            "title": "Unidad Id"
+            "title": "Unidad Id",
+            "description": "Código de la unidad de transporte (ya registrada)",
+            "examples": [
+              "UNI-001"
+            ]
           },
           "operador_id": {
             "type": "string",
-            "title": "Operador Id"
+            "title": "Operador Id",
+            "description": "Código del operador (ya registrado y disponible)",
+            "examples": [
+              "OPE-001"
+            ]
           }
         },
         "additionalProperties": false,
@@ -2050,13 +2200,24 @@
           "unidad_id",
           "operador_id"
         ],
-        "title": "AsignacionIn"
+        "title": "AsignacionIn",
+        "description": "Qué camión y qué operador harán el servicio.",
+        "examples": [
+          {
+            "operador_id": "OPE-001",
+            "unidad_id": "UNI-001"
+          }
+        ]
       },
       "AutorizacionAltoValorIn": {
         "properties": {
           "autorizado_por": {
             "type": "string",
-            "title": "Autorizado Por"
+            "title": "Autorizado Por",
+            "description": "Nombre de la persona o del área que autoriza",
+            "examples": [
+              "Operaciones"
+            ]
           }
         },
         "additionalProperties": false,
@@ -2064,17 +2225,31 @@
         "required": [
           "autorizado_por"
         ],
-        "title": "AutorizacionAltoValorIn"
+        "title": "AutorizacionAltoValorIn",
+        "description": "Quién autoriza que se transporte una carga de mucho valor.",
+        "examples": [
+          {
+            "autorizado_por": "Operaciones"
+          }
+        ]
       },
       "CambioOperativoIn": {
         "properties": {
           "solicitado_por": {
             "type": "string",
-            "title": "Solicitado Por"
+            "title": "Solicitado Por",
+            "description": "Quién pide el cambio",
+            "examples": [
+              "Cliente CLI-001"
+            ]
           },
           "descripcion": {
             "type": "string",
-            "title": "Descripcion"
+            "title": "Descripcion",
+            "description": "Qué se quiere cambiar",
+            "examples": [
+              "Cambiar la hora de recolección a las 10:00"
+            ]
           }
         },
         "additionalProperties": false,
@@ -2083,22 +2258,41 @@
           "solicitado_por",
           "descripcion"
         ],
-        "title": "CambioOperativoIn"
+        "title": "CambioOperativoIn",
+        "description": "Un cambio que afecta cómo se hará el servicio.",
+        "examples": [
+          {
+            "descripcion": "Cambiar la hora de recolección a las 10:00",
+            "solicitado_por": "Cliente CLI-001"
+          }
+        ]
       },
       "CancelacionIn": {
         "properties": {
           "solicitado_por": {
             "type": "string",
-            "title": "Solicitado Por"
+            "title": "Solicitado Por",
+            "description": "Quién pide la cancelación",
+            "examples": [
+              "Cliente CLI-001"
+            ]
           },
           "motivo": {
             "type": "string",
-            "title": "Motivo"
+            "title": "Motivo",
+            "description": "Por qué se cancela, con sus palabras",
+            "examples": [
+              "El cliente ya no necesita el envío"
+            ]
           },
           "rol_que_autoriza": {
             "type": "string",
             "title": "Rol Que Autoriza",
-            "default": "Operaciones"
+            "description": "Área que autoriza la cancelación (normalmente Operaciones)",
+            "default": "Operaciones",
+            "examples": [
+              "Operaciones"
+            ]
           }
         },
         "additionalProperties": false,
@@ -2107,25 +2301,42 @@
           "solicitado_por",
           "motivo"
         ],
-        "title": "CancelacionIn"
+        "title": "CancelacionIn",
+        "description": "Datos para cancelar un servicio.",
+        "examples": [
+          {
+            "motivo": "El cliente ya no necesita el envío",
+            "rol_que_autoriza": "Operaciones",
+            "solicitado_por": "Cliente CLI-001"
+          }
+        ]
       },
       "ClienteIn": {
         "properties": {
           "id": {
             "type": "string",
             "title": "Id",
+            "description": "Código que usted le inventa al cliente (no se puede repetir). Ejemplo: CLI-001",
             "examples": [
               "CLI-001"
             ]
           },
           "nombre": {
             "type": "string",
-            "title": "Nombre"
+            "title": "Nombre",
+            "description": "Nombre del cliente o de su empresa",
+            "examples": [
+              "Refacciones del Norte S.A. de C.V."
+            ]
           },
           "ciudad": {
             "type": "string",
             "title": "Ciudad",
-            "default": ""
+            "description": "Ciudad donde está el cliente (opcional)",
+            "default": "",
+            "examples": [
+              "Monterrey"
+            ]
           }
         },
         "additionalProperties": false,
@@ -2134,16 +2345,29 @@
           "id",
           "nombre"
         ],
-        "title": "ClienteIn"
+        "title": "ClienteIn",
+        "description": "Datos para dar de alta a un cliente.",
+        "examples": [
+          {
+            "ciudad": "Monterrey",
+            "id": "CLI-001",
+            "nombre": "Refacciones del Norte S.A. de C.V."
+          }
+        ]
       },
       "CotizacionIn": {
         "properties": {
           "cliente_id": {
             "type": "string",
-            "title": "Cliente Id"
+            "title": "Cliente Id",
+            "description": "Código del cliente (el mismo con que se registró)",
+            "examples": [
+              "CLI-001"
+            ]
           },
           "solicitud": {
-            "$ref": "#/components/schemas/SolicitudIn"
+            "$ref": "#/components/schemas/SolicitudIn",
+            "description": "Lo que el cliente quiere transportar"
           }
         },
         "additionalProperties": false,
@@ -2152,13 +2376,43 @@
           "cliente_id",
           "solicitud"
         ],
-        "title": "CotizacionIn"
+        "title": "CotizacionIn",
+        "description": "Petición de cotización de un cliente ya registrado.",
+        "examples": [
+          {
+            "cliente_id": "CLI-001",
+            "solicitud": {
+              "destino": {
+                "ciudad": "Querétaro",
+                "direccion": "Calle Parque 5, Zona Industrial"
+              },
+              "fecha_requerida": "2026-12-01",
+              "mercancia": {
+                "alto_m": 1.5,
+                "alto_valor": false,
+                "ancho_m": 1.5,
+                "caracteristicas_especiales": "",
+                "descripcion": "Refacciones automotrices",
+                "largo_m": 2,
+                "peso_kg": 800
+              },
+              "origen": {
+                "ciudad": "Monterrey",
+                "direccion": "Av. Industria 100, Parque Industrial"
+              }
+            }
+          }
+        ]
       },
       "DisponibilidadIn": {
         "properties": {
           "disponible": {
             "type": "boolean",
-            "title": "Disponible"
+            "title": "Disponible",
+            "description": "true = disponible, false = no disponible (vacaciones, descanso, enfermo…)",
+            "examples": [
+              false
+            ]
           }
         },
         "additionalProperties": false,
@@ -2166,7 +2420,13 @@
         "required": [
           "disponible"
         ],
-        "title": "DisponibilidadIn"
+        "title": "DisponibilidadIn",
+        "description": "Indica si el operador puede recibir trabajo.",
+        "examples": [
+          {
+            "disponible": false
+          }
+        ]
       },
       "EntregaIn": {
         "properties": {
@@ -2180,10 +2440,14 @@
               }
             ],
             "title": "Destinatario",
-            "description": "Identificación de quien recibe"
+            "description": "Identificación de la persona que recibe (por ejemplo, número de INE)",
+            "examples": [
+              "INE-123456"
+            ]
           },
           "evidencia": {
-            "$ref": "#/components/schemas/EvidenciaIn"
+            "$ref": "#/components/schemas/EvidenciaIn",
+            "description": "Foto o documento de la entrega"
           },
           "incidencia": {
             "anyOf": [
@@ -2193,12 +2457,17 @@
               {
                 "type": "null"
               }
-            ]
+            ],
+            "description": "Déjelo vacío si la entrega salió bien. Si NO se pudo entregar, elija el motivo"
           },
           "descripcion_incidencia": {
             "type": "string",
             "title": "Descripcion Incidencia",
-            "default": ""
+            "description": "Si hubo problema, explique con sus palabras qué pasó",
+            "default": "",
+            "examples": [
+              "No había nadie para recibir"
+            ]
           }
         },
         "additionalProperties": false,
@@ -2207,37 +2476,68 @@
           "evidencia"
         ],
         "title": "EntregaIn",
-        "description": "Sin `incidencia`: entrega completa. Con `incidencia`: la entrega no se concreta y se registra el motivo."
+        "description": "Datos de la entrega. Si algo impidió entregar, indique el problema en «incidencia».",
+        "examples": [
+          {
+            "destinatario": "INE-123456",
+            "evidencia": {
+              "referencia": "https://ejemplo.com/fotos/entrega-001.jpg",
+              "tipo": "FOTOGRAFIA"
+            }
+          }
+        ]
       },
       "ErrorOut": {
         "properties": {
           "codigo": {
             "type": "string",
             "title": "Codigo",
-            "description": "Nombre del error de negocio o 'SolicitudInvalida'"
+            "description": "Nombre corto del problema (sirve para soporte técnico; no necesita entenderlo)"
           },
           "mensaje": {
             "type": "string",
-            "title": "Mensaje"
+            "title": "Mensaje",
+            "description": "Qué pasó, explicado con palabras sencillas"
+          },
+          "que_hacer": {
+            "type": "string",
+            "title": "Que Hacer",
+            "description": "Qué puede hacer usted para resolverlo"
           }
         },
         "type": "object",
         "required": [
           "codigo",
-          "mensaje"
+          "mensaje",
+          "que_hacer"
         ],
-        "title": "ErrorOut"
+        "title": "ErrorOut",
+        "description": "Lo que la API contesta cuando algo no se pudo hacer. Siempre explica el problema y qué hacer.",
+        "examples": [
+          {
+            "codigo": "TransicionDeEstadoInvalida",
+            "mensaje": "No se puede registrar la entrega: el servicio está con la mercancía recolectada. Para hacerlo, el servicio debe estar llegado al destino.",
+            "que_hacer": "Consulte en qué paso va la orden («Consultar el estado de una orden») y siga los pasos en orden."
+          }
+        ]
       },
       "EvidenciaIn": {
         "properties": {
           "tipo": {
             "$ref": "#/components/schemas/TipoDeEvidencia",
-            "default": "FOTOGRAFIA"
+            "description": "FOTOGRAFIA o DOCUMENTO",
+            "default": "FOTOGRAFIA",
+            "examples": [
+              "FOTOGRAFIA"
+            ]
           },
           "referencia": {
             "type": "string",
             "title": "Referencia",
-            "description": "URL o folio del archivo de evidencia"
+            "description": "Dirección web (enlace) o folio de la foto o del documento",
+            "examples": [
+              "https://ejemplo.com/fotos/entrega-001.jpg"
+            ]
           },
           "fecha": {
             "anyOf": [
@@ -2249,7 +2549,8 @@
                 "type": "null"
               }
             ],
-            "title": "Fecha"
+            "title": "Fecha",
+            "description": "Fecha y hora de la evidencia (opcional; si no la pone, se usa la de ahora)"
           }
         },
         "additionalProperties": false,
@@ -2257,7 +2558,14 @@
         "required": [
           "referencia"
         ],
-        "title": "EvidenciaIn"
+        "title": "EvidenciaIn",
+        "description": "Comprobante del hecho: una foto o un documento.",
+        "examples": [
+          {
+            "referencia": "https://ejemplo.com/fotos/entrega-001.jpg",
+            "tipo": "FOTOGRAFIA"
+          }
+        ]
       },
       "ImporteIn": {
         "properties": {
@@ -2272,6 +2580,7 @@
               }
             ],
             "title": "Importe Mxn",
+            "description": "Precio en pesos mexicanos. Debe ser mayor que cero. Ejemplo: 12500.00",
             "examples": [
               "12500.00"
             ]
@@ -2282,16 +2591,30 @@
         "required": [
           "importe_mxn"
         ],
-        "title": "ImporteIn"
+        "title": "ImporteIn",
+        "description": "Precio de la cotización.",
+        "examples": [
+          {
+            "importe_mxn": "12500.00"
+          }
+        ]
       },
       "IncidenciaIn": {
         "properties": {
           "tipo": {
-            "$ref": "#/components/schemas/TipoDeIncidencia"
+            "$ref": "#/components/schemas/TipoDeIncidencia",
+            "description": "Qué clase de problema es",
+            "examples": [
+              "RETRASO"
+            ]
           },
           "descripcion": {
             "type": "string",
-            "title": "Descripcion"
+            "title": "Descripcion",
+            "description": "Explique con sus palabras qué pasó",
+            "examples": [
+              "Tráfico pesado en la carretera"
+            ]
           },
           "evidencia": {
             "anyOf": [
@@ -2301,7 +2624,8 @@
               {
                 "type": "null"
               }
-            ]
+            ],
+            "description": "Foto o documento que lo compruebe (opcional)"
           }
         },
         "additionalProperties": false,
@@ -2310,39 +2634,74 @@
           "tipo",
           "descripcion"
         ],
-        "title": "IncidenciaIn"
+        "title": "IncidenciaIn",
+        "description": "Un problema durante el servicio (retraso, avería, etc.).",
+        "examples": [
+          {
+            "descripcion": "Tráfico pesado en la carretera, llegaremos 2 horas tarde",
+            "tipo": "RETRASO"
+          }
+        ]
       },
       "MercanciaIn": {
         "properties": {
           "descripcion": {
             "type": "string",
-            "title": "Descripcion"
+            "title": "Descripcion",
+            "description": "Qué se va a transportar, con palabras sencillas",
+            "examples": [
+              "Refacciones automotrices"
+            ]
           },
           "peso_kg": {
             "type": "number",
-            "title": "Peso Kg"
+            "title": "Peso Kg",
+            "description": "Peso total en kilos. Debe ser mayor que cero",
+            "examples": [
+              800
+            ]
           },
           "largo_m": {
             "type": "number",
-            "title": "Largo M"
+            "title": "Largo M",
+            "description": "Largo de la carga en metros",
+            "examples": [
+              2
+            ]
           },
           "ancho_m": {
             "type": "number",
-            "title": "Ancho M"
+            "title": "Ancho M",
+            "description": "Ancho de la carga en metros",
+            "examples": [
+              1.5
+            ]
           },
           "alto_m": {
             "type": "number",
-            "title": "Alto M"
+            "title": "Alto M",
+            "description": "Alto de la carga en metros",
+            "examples": [
+              1.5
+            ]
           },
           "caracteristicas_especiales": {
             "type": "string",
             "title": "Caracteristicas Especiales",
-            "default": ""
+            "description": "Cuidados especiales: frágil, refrigerada, etc. (opcional)",
+            "default": "",
+            "examples": [
+              "Frágil"
+            ]
           },
           "alto_valor": {
             "type": "boolean",
             "title": "Alto Valor",
-            "default": false
+            "description": "¿Es una carga de mucho valor? true = sí (requerirá autorización de Operaciones), false = no",
+            "default": false,
+            "examples": [
+              false
+            ]
           }
         },
         "additionalProperties": false,
@@ -2354,43 +2713,71 @@
           "ancho_m",
           "alto_m"
         ],
-        "title": "MercanciaIn"
+        "title": "MercanciaIn",
+        "description": "Lo que se va a transportar."
       },
       "OperacionOut": {
         "properties": {
           "mensaje": {
             "type": "string",
-            "title": "Mensaje"
+            "title": "Mensaje",
+            "description": "Qué se hizo, explicado con palabras sencillas"
+          },
+          "que_sigue": {
+            "type": "string",
+            "title": "Que Sigue",
+            "description": "Cuál es el siguiente paso recomendado",
+            "default": ""
           },
           "datos": {
             "additionalProperties": true,
             "type": "object",
-            "title": "Datos"
+            "title": "Datos",
+            "description": "Números y códigos que conviene guardar (por ejemplo, el número de cotización)"
           }
         },
         "type": "object",
         "required": [
           "mensaje"
         ],
-        "title": "OperacionOut"
+        "title": "OperacionOut",
+        "description": "Lo que la API contesta cuando todo salió bien.",
+        "examples": [
+          {
+            "datos": {
+              "cliente_id": "CLI-001"
+            },
+            "mensaje": "Listo: el cliente quedó registrado con el código CLI-001.",
+            "que_sigue": "Ahora puede pedir una cotización para este cliente (sección «2. Cotizaciones»)."
+          }
+        ]
       },
       "OperadorIn": {
         "properties": {
           "id": {
             "type": "string",
             "title": "Id",
+            "description": "Código del operador (no se puede repetir). Ejemplo: OPE-001",
             "examples": [
               "OPE-001"
             ]
           },
           "nombre": {
             "type": "string",
-            "title": "Nombre"
+            "title": "Nombre",
+            "description": "Nombre completo del operador",
+            "examples": [
+              "Luis Pérez"
+            ]
           },
           "disponible": {
             "type": "boolean",
             "title": "Disponible",
-            "default": true
+            "description": "¿Puede recibir trabajo ahora? true = sí, false = no",
+            "default": true,
+            "examples": [
+              true
+            ]
           }
         },
         "additionalProperties": false,
@@ -2399,25 +2786,39 @@
           "id",
           "nombre"
         ],
-        "title": "OperadorIn"
+        "title": "OperadorIn",
+        "description": "Datos para dar de alta a un operador (conductor).",
+        "examples": [
+          {
+            "disponible": true,
+            "id": "OPE-001",
+            "nombre": "Luis Pérez"
+          }
+        ]
       },
       "OrdenIn": {
         "properties": {
           "cotizacion_id": {
             "type": "string",
-            "title": "Cotizacion Id"
+            "title": "Cotizacion Id",
+            "description": "Número de la cotización ya ACEPTADA (lo recibió al pedir la cotización)"
           },
           "ruta": {
             "type": "string",
             "title": "Ruta",
+            "description": "Nombre corto de la ruta. Ejemplo: MTY-QRO (Monterrey a Querétaro)",
             "examples": [
-              "MTY-CDMX"
+              "MTY-QRO"
             ]
           },
           "horario_recoleccion": {
             "type": "string",
             "format": "date-time",
-            "title": "Horario Recoleccion"
+            "title": "Horario Recoleccion",
+            "description": "Día y hora en que se recogerá la mercancía. Formato: 2026-11-20T08:00:00Z",
+            "examples": [
+              "2026-11-20T08:00:00Z"
+            ]
           }
         },
         "additionalProperties": false,
@@ -2427,12 +2828,21 @@
           "ruta",
           "horario_recoleccion"
         ],
-        "title": "OrdenIn"
+        "title": "OrdenIn",
+        "description": "Datos para crear la orden de servicio de una cotización aceptada.",
+        "examples": [
+          {
+            "cotizacion_id": "PEGUE-AQUÍ-EL-NÚMERO-DE-COTIZACIÓN",
+            "horario_recoleccion": "2026-11-20T08:00:00Z",
+            "ruta": "MTY-QRO"
+          }
+        ]
       },
       "RecepcionIn": {
         "properties": {
           "evidencia": {
-            "$ref": "#/components/schemas/EvidenciaIn"
+            "$ref": "#/components/schemas/EvidenciaIn",
+            "description": "Foto o documento de la mercancía recibida"
           }
         },
         "additionalProperties": false,
@@ -2440,7 +2850,16 @@
         "required": [
           "evidencia"
         ],
-        "title": "RecepcionIn"
+        "title": "RecepcionIn",
+        "description": "Comprobante de que el operador recibió la mercancía.",
+        "examples": [
+          {
+            "evidencia": {
+              "referencia": "https://ejemplo.com/fotos/entrega-001.jpg",
+              "tipo": "FOTOGRAFIA"
+            }
+          }
+        ]
       },
       "RespuestaIn": {
         "properties": {
@@ -2450,7 +2869,11 @@
               "ACEPTA",
               "RECHAZA"
             ],
-            "title": "Respuesta"
+            "title": "Respuesta",
+            "description": "ACEPTA si está de acuerdo con el precio; RECHAZA si no",
+            "examples": [
+              "ACEPTA"
+            ]
           }
         },
         "additionalProperties": false,
@@ -2458,22 +2881,40 @@
         "required": [
           "respuesta"
         ],
-        "title": "RespuestaIn"
+        "title": "RespuestaIn",
+        "description": "Lo que contesta el cliente.",
+        "examples": [
+          {
+            "respuesta": "ACEPTA"
+          }
+        ]
       },
       "RevisionDeCambioIn": {
         "properties": {
           "revisado_por": {
             "type": "string",
-            "title": "Revisado Por"
+            "title": "Revisado Por",
+            "description": "Quién revisa el cambio",
+            "examples": [
+              "Operaciones"
+            ]
           },
           "aprobado": {
             "type": "boolean",
-            "title": "Aprobado"
+            "title": "Aprobado",
+            "description": "true = se aprueba el cambio, false = se rechaza",
+            "examples": [
+              true
+            ]
           },
           "comentario": {
             "type": "string",
             "title": "Comentario",
-            "default": ""
+            "description": "Explicación opcional de la decisión",
+            "default": "",
+            "examples": [
+              "Se puede mover el horario"
+            ]
           }
         },
         "additionalProperties": false,
@@ -2482,23 +2923,38 @@
           "revisado_por",
           "aprobado"
         ],
-        "title": "RevisionDeCambioIn"
+        "title": "RevisionDeCambioIn",
+        "description": "Decisión de Operaciones sobre un cambio pedido.",
+        "examples": [
+          {
+            "aprobado": true,
+            "comentario": "Se puede mover el horario",
+            "revisado_por": "Operaciones"
+          }
+        ]
       },
       "SolicitudIn": {
         "properties": {
           "origen": {
-            "$ref": "#/components/schemas/UbicacionIn"
+            "$ref": "#/components/schemas/UbicacionIn",
+            "description": "Dónde se recoge la mercancía"
           },
           "destino": {
-            "$ref": "#/components/schemas/UbicacionIn"
+            "$ref": "#/components/schemas/UbicacionIn",
+            "description": "Dónde se entrega la mercancía"
           },
           "mercancia": {
-            "$ref": "#/components/schemas/MercanciaIn"
+            "$ref": "#/components/schemas/MercanciaIn",
+            "description": "Qué se transporta"
           },
           "fecha_requerida": {
             "type": "string",
             "format": "date",
-            "title": "Fecha Requerida"
+            "title": "Fecha Requerida",
+            "description": "Fecha en que el cliente necesita la entrega. Formato AAAA-MM-DD",
+            "examples": [
+              "2026-12-01"
+            ]
           }
         },
         "additionalProperties": false,
@@ -2509,7 +2965,30 @@
           "mercancia",
           "fecha_requerida"
         ],
-        "title": "SolicitudIn"
+        "title": "SolicitudIn",
+        "description": "Todo lo que el cliente pide: de dónde a dónde, qué lleva y para cuándo.",
+        "examples": [
+          {
+            "destino": {
+              "ciudad": "Querétaro",
+              "direccion": "Calle Parque 5, Zona Industrial"
+            },
+            "fecha_requerida": "2026-12-01",
+            "mercancia": {
+              "alto_m": 1.5,
+              "alto_valor": false,
+              "ancho_m": 1.5,
+              "caracteristicas_especiales": "",
+              "descripcion": "Refacciones automotrices",
+              "largo_m": 2,
+              "peso_kg": 800
+            },
+            "origen": {
+              "ciudad": "Monterrey",
+              "direccion": "Av. Industria 100, Parque Industrial"
+            }
+          }
+        ]
       },
       "TipoDeEvidencia": {
         "type": "string",
@@ -2537,12 +3016,20 @@
         "properties": {
           "ciudad": {
             "type": "string",
-            "title": "Ciudad"
+            "title": "Ciudad",
+            "description": "Ciudad",
+            "examples": [
+              "Monterrey"
+            ]
           },
           "direccion": {
             "type": "string",
             "title": "Direccion",
-            "default": ""
+            "description": "Calle, número y colonia o parque industrial",
+            "default": "",
+            "examples": [
+              "Av. Industria 100"
+            ]
           }
         },
         "additionalProperties": false,
@@ -2550,13 +3037,15 @@
         "required": [
           "ciudad"
         ],
-        "title": "UbicacionIn"
+        "title": "UbicacionIn",
+        "description": "Un lugar: ciudad y dirección."
       },
       "UnidadIn": {
         "properties": {
           "id": {
             "type": "string",
             "title": "Id",
+            "description": "Código de la unidad (no se puede repetir). Ejemplo: UNI-001",
             "examples": [
               "UNI-001"
             ]
@@ -2564,6 +3053,7 @@
           "tipo": {
             "type": "string",
             "title": "Tipo",
+            "description": "Tipo de vehículo",
             "examples": [
               "Camión torton"
             ]
@@ -2571,7 +3061,7 @@
           "peso_kg": {
             "type": "number",
             "title": "Peso Kg",
-            "description": "Capacidad de peso en kg",
+            "description": "Cuántos kilos puede cargar como máximo",
             "examples": [
               8000
             ]
@@ -2579,7 +3069,7 @@
           "volumen_m3": {
             "type": "number",
             "title": "Volumen M3",
-            "description": "Capacidad de volumen en m³",
+            "description": "Cuántos metros cúbicos de carga le caben como máximo",
             "examples": [
               40
             ]
@@ -2593,8 +3083,39 @@
           "peso_kg",
           "volumen_m3"
         ],
-        "title": "UnidadIn"
+        "title": "UnidadIn",
+        "description": "Datos para dar de alta un camión o vehículo de carga.",
+        "examples": [
+          {
+            "id": "UNI-001",
+            "peso_kg": 8000,
+            "tipo": "Camión torton",
+            "volumen_m3": 40
+          }
+        ]
       }
     }
-  }
+  },
+  "tags": [
+    {
+      "name": "1. Registros básicos",
+      "description": "**Empiece aquí.** Dé de alta a los clientes, los camiones (unidades) y los operadores (conductores). Cada uno lleva un código que usted inventa, por ejemplo `CLI-001`."
+    },
+    {
+      "name": "2. Cotizaciones",
+      "description": "El cliente pide un precio, Ventas lo calcula y el cliente decide si lo acepta. Al pedir la cotización recibirá un **número de cotización**: guárdelo."
+    },
+    {
+      "name": "3. Órdenes de servicio",
+      "description": "Cuando el cliente acepta, se crea la orden de servicio y se sigue el viaje paso a paso: asignar camión y operador, recoger, viajar, llegar y entregar. Aquí también se registran problemas, cambios y cancelaciones."
+    },
+    {
+      "name": "4. Indicadores",
+      "description": "Cifras para saber cómo vamos: entregas, retrasos y problemas en un periodo."
+    },
+    {
+      "name": "5. Estado del sistema",
+      "description": "Sirve para comprobar que el sistema está funcionando."
+    }
+  ]
 }

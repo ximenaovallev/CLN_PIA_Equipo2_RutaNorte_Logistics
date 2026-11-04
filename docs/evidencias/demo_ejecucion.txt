@@ -3,22 +3,22 @@
 [OK ] POST /unidades                                        -> 201  registrar unidad
 [OK ] POST /operadores                                      -> 201  registrar operador
 [OK ] POST /cotizaciones                                    -> 201  solicitar cotización (SOLICITADO)
-[OK ] POST /cotizaciones/c7af2798-b0ea-48ac-bc5a-15192d3f36b4/respuesta -> 422  ERROR: aceptar sin cotizar -> 422
-[OK ] PUT  /cotizaciones/c7af2798-b0ea-48ac-bc5a-15192d3f36b4/importe -> 200  elaborar cotización (COTIZADO)
-[OK ] POST /cotizaciones/c7af2798-b0ea-48ac-bc5a-15192d3f36b4/respuesta -> 200  el cliente acepta
+[OK ] POST /cotizaciones/2a6f5eb3-5976-454e-9704-f81463c3e695/respuesta -> 422  ERROR: aceptar sin cotizar -> 422
+[OK ] PUT  /cotizaciones/2a6f5eb3-5976-454e-9704-f81463c3e695/importe -> 200  elaborar cotización (COTIZADO)
+[OK ] POST /cotizaciones/2a6f5eb3-5976-454e-9704-f81463c3e695/respuesta -> 200  el cliente acepta
 [OK ] POST /ordenes                                         -> 201  generar orden (CONFIRMADO)
-[OK ] POST /ordenes/0293e661-3b4b-4f91-bb9d-9281da7dc9fb/asignacion -> 422  ERROR: alto valor sin autorizar -> 422
-[OK ] POST /ordenes/0293e661-3b4b-4f91-bb9d-9281da7dc9fb/autorizacion-alto-valor -> 200  autorizar alto valor
-[OK ] POST /ordenes/0293e661-3b4b-4f91-bb9d-9281da7dc9fb/asignacion -> 200  asignar unidad y operador (UNIDAD_ASIGNADA)
-[OK ] POST /ordenes/0293e661-3b4b-4f91-bb9d-9281da7dc9fb/entrega -> 409  ERROR: entregar sin haber recolectado -> 409
-[OK ] POST /ordenes/0293e661-3b4b-4f91-bb9d-9281da7dc9fb/recepcion -> 200  recepción con evidencia (RECOLECTADO)
-[OK ] POST /ordenes/0293e661-3b4b-4f91-bb9d-9281da7dc9fb/traslado -> 200  iniciar traslado (EN_TRANSITO)
-[OK ] POST /ordenes/0293e661-3b4b-4f91-bb9d-9281da7dc9fb/incidencias -> 200  incidencia: retraso (no cambia el estado)
-[OK ] POST /ordenes/0293e661-3b4b-4f91-bb9d-9281da7dc9fb/llegada -> 200  llegada a destino (LLEGADA_A_DESTINO)
-[OK ] POST /ordenes/0293e661-3b4b-4f91-bb9d-9281da7dc9fb/entrega -> 200  entrega con receptor y evidencia (ENTREGADO)
-[OK ] GET  /ordenes/0293e661-3b4b-4f91-bb9d-9281da7dc9fb/estado -> 200  consultar estado e historial
+[OK ] POST /ordenes/6f0fdf13-f96f-4156-9019-0519c1c20270/asignacion -> 422  ERROR: alto valor sin autorizar -> 422
+[OK ] POST /ordenes/6f0fdf13-f96f-4156-9019-0519c1c20270/autorizacion-alto-valor -> 200  autorizar alto valor
+[OK ] POST /ordenes/6f0fdf13-f96f-4156-9019-0519c1c20270/asignacion -> 200  asignar unidad y operador (UNIDAD_ASIGNADA)
+[OK ] POST /ordenes/6f0fdf13-f96f-4156-9019-0519c1c20270/entrega -> 409  ERROR: entregar sin haber recolectado -> 409
+[OK ] POST /ordenes/6f0fdf13-f96f-4156-9019-0519c1c20270/recepcion -> 200  recepción con evidencia (RECOLECTADO)
+[OK ] POST /ordenes/6f0fdf13-f96f-4156-9019-0519c1c20270/traslado -> 200  iniciar traslado (EN_TRANSITO)
+[OK ] POST /ordenes/6f0fdf13-f96f-4156-9019-0519c1c20270/incidencias -> 200  incidencia: retraso (no cambia el estado)
+[OK ] POST /ordenes/6f0fdf13-f96f-4156-9019-0519c1c20270/llegada -> 200  llegada a destino (LLEGADA_A_DESTINO)
+[OK ] POST /ordenes/6f0fdf13-f96f-4156-9019-0519c1c20270/entrega -> 200  entrega con receptor y evidencia (ENTREGADO)
+[OK ] GET  /ordenes/6f0fdf13-f96f-4156-9019-0519c1c20270/estado -> 200  consultar estado e historial
 [OK ] GET  /ordenes/NO-EXISTE/estado                        -> 404  ERROR: orden inexistente -> 404
 [OK ] GET  /indicadores                                     -> 200  indicadores
 
 Estado final: ENTREGADO | eventos en el historial: 8
-Entregas realizadas: 2 | cumplimiento de entregas (S-05): 1.0
+Entregas realizadas: 1 | cumplimiento de entregas (S-05): 1.0
