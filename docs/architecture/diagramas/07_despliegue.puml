@@ -1,0 +1,31 @@
+@startuml 07_despliegue
+title Despliegue y entrega continua
+skinparam shadowing false
+actor "Desarrollador" as dev
+actor "Profesor / usuario" as user
+
+node "GitHub" {
+  artifact "Repositorio\nximenaovallev/CLN_02_RutaNorte_Logistics" as repo
+  component "GitHub Actions\n.github/workflows/ci.yml" as ci
+}
+node "Render" {
+  node "Web Service (Docker)" as web {
+    component "uvicorn + FastAPI\n/docs  /openapi.json  /health" as api
+  }
+  database "PostgreSQL (rutanorte-db)" as db
+}
+node "docker compose (local)" as local {
+  component "app" as app
+  database "db: postgres:16" as ldb
+  component "tests (perfil tests)" as t
+}
+
+dev --> repo : git push (main)
+repo --> ci : dispara
+ci --> ci : pytest --cov-fail-under=80\n(memoria, SQLite, PostgreSQL)\ndocker build + compose config
+ci --> web : despliegue (autoDeploy / deploy hook)
+user --> api : HTTPS (Swagger UI, REST)
+api --> db : DATABASE_URL (variable de entorno)
+app --> ldb
+t --> ldb
+@enduml

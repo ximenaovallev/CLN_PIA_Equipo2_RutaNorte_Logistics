@@ -1,0 +1,43 @@
+@startuml 05_secuencia_asignar_recursos
+title Asignar unidad y operador (US-07 / G2) - POST /ordenes/{id}/asignacion
+skinparam shadowing false
+actor "Operaciones" as op
+participant "rutas.asignar_recursos" as api
+participant "AsignarRecursosHandler" as h
+participant "SqlUnitOfWork" as uow
+participant "AsignadorDeRecursos" as asig
+participant "Especificacion\nasignacion_permitida()" as spec
+participant "OrdenDeServicio" as orden
+participant "SqlPublicadorDeEventos" as pub
+
+op -> api : JSON {unidad_id, operador_id}
+api -> h : handle(AsignarRecursosCommand)
+h -> uow : with (abre la transacción)
+h -> uow : ordenes.obtener_por_id(orden_id)
+h -> uow : unidades.obtener_por_id() / operadores.obtener_por_id()
+h -> asig : validar_y_crear(orden, unidad, operador)
+asig -> spec : es_satisfecha_por(CandidatoDeAsignacion)
+alt unidad no adecuada u operador no disponible
+  asig --> h : RecursosNoDisponibles(motivos)
+  h -> uow : salida sin confirmar -> rollback
+  h --> api : Resultado.fallo(codigo="RecursosNoDisponibles")
+  api --> op : 422 {codigo, mensaje}
+else regla G2 cumplida
+  asig --> h : Asignacion
+  h -> orden : asignar_recursos(Asignacion)
+  orden -> orden : sin_cambio_pendiente() ; CICLO.aplicar(estado, ASIGNAR_RECURSOS)
+  orden -> orden : control_de_alto_valor_cumplido()
+  alt alto valor sin autorizar / cambio pendiente / estado no válido
+    orden --> h : ControlDeAltoValorPendiente / CambioPendienteDeRevision / TransicionDeEstadoInvalida
+    h -> uow : rollback
+    h --> api : Resultado.fallo(codigo)
+    api --> op : 422 / 409
+  else válido
+    orden --> h : estado UNIDAD_ASIGNADA + entrada de historial + eventos
+    h -> uow : ordenes.guardar(orden) ; confirmar() (commit)
+    h -> pub : publicar([RecursosAsignados, EstadoDelServicioCambiado])
+    h --> api : Resultado.ok
+    api --> op : 200
+  end
+end
+@enduml

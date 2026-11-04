@@ -1,0 +1,42 @@
+@startuml 06_secuencia_registrar_entrega
+title Registrar entrega o incidencia en destino (US-11/12/13) - POST /ordenes/{id}/entrega
+skinparam shadowing false
+actor "Operador" as op
+participant "rutas.registrar_entrega" as api
+participant "RegistrarEntregaHandler" as h
+participant "SqlUnitOfWork" as uow
+participant "OrdenDeServicio" as orden
+participant "entrega_documentada()\n(Specification)" as spec
+participant "SqlPublicadorDeEventos" as pub
+
+op -> api : JSON {destinatario, evidencia, incidencia?}
+api -> h : handle(RegistrarEntregaCommand)
+h -> uow : with (abre la transacción)
+h -> uow : ordenes.obtener_por_id(orden_id)
+alt incidencia == None (entrega posible, completa y sin daño)
+  h -> orden : registrar_entrega(destinatario, evidencia)
+  orden -> orden : CICLO.aplicar(estado, REGISTRAR_ENTREGA)
+  orden -> spec : es_satisfecha_por(DatosDeEntrega)
+  alt falta receptor o evidencia de entrega
+    orden --> h : DatosInvalidos
+    h -> uow : rollback
+    h --> api : Resultado.fallo("DatosInvalidos")
+    api --> op : 400
+  else estado distinto de LLEGADA_A_DESTINO
+    orden --> h : TransicionDeEstadoInvalida
+    h -> uow : rollback
+    api --> op : 409
+  else válida
+    orden --> h : ENTREGADO + historial + [EntregaRegistrada, EstadoDelServicioCambiado]
+    h -> uow : guardar(orden) ; confirmar()
+    h -> pub : publicar(eventos)
+    api --> op : 200
+  end
+else incidencia informada (destinatario ausente, rechazo, daño...)
+  h -> orden : registrar_incidencia(tipo, descripcion, evidencia)
+  orden --> h : incidencia + historial + [IncidenciaRegistrada] (el estado NO cambia)
+  h -> uow : guardar(orden) ; confirmar()
+  h -> pub : publicar(eventos)
+  api --> op : 200 (Operaciones decide el siguiente paso)
+end
+@enduml

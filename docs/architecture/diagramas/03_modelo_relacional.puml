@@ -1,0 +1,113 @@
+@startuml 03_modelo_relacional
+title Modelo relacional (generado desde infrastructure/sql/tablas.py)
+skinparam shadowing false
+hide circle
+skinparam linetype ortho
+
+entity clientes {
+  * id : VARCHAR
+    nombre : VARCHAR
+    ciudad : VARCHAR
+}
+entity eventos_de_dominio {
+  * id : INTEGER
+    tipo : VARCHAR
+    agregado_id : VARCHAR
+    datos : TEXT
+    ocurrio_en : DATETIME
+}
+entity operadores {
+  * id : VARCHAR
+    nombre : VARCHAR
+    disponible : BOOLEAN
+}
+entity unidades {
+  * id : VARCHAR
+    tipo : VARCHAR
+    peso_kg : FLOAT
+    volumen_m3 : FLOAT
+}
+entity cotizaciones {
+  * id : VARCHAR
+    cliente_id : VARCHAR
+    estado : VARCHAR
+    importe_mxn : NUMERIC
+    origen_ciudad : VARCHAR
+    origen_direccion : VARCHAR
+    destino_ciudad : VARCHAR
+    destino_direccion : VARCHAR
+    mercancia_descripcion : VARCHAR
+    mercancia_peso_kg : FLOAT
+    mercancia_largo_m : FLOAT
+    mercancia_ancho_m : FLOAT
+    mercancia_alto_m : FLOAT
+    mercancia_caracteristicas : VARCHAR
+    mercancia_alto_valor : BOOLEAN
+    fecha_requerida : DATE
+}
+entity ordenes {
+  * id : VARCHAR
+    cotizacion_id : VARCHAR
+    cliente_id : VARCHAR
+    estado : VARCHAR
+    ruta : VARCHAR
+    horario_recoleccion : DATETIME
+    alto_valor_autorizado : BOOLEAN
+    asignacion_unidad_id : VARCHAR
+    asignacion_operador_id : VARCHAR
+    destinatario : VARCHAR
+    fecha_entrega : DATETIME
+    cancelacion_solicitado_por : VARCHAR
+    cancelacion_motivo : TEXT
+    cancelacion_fecha : DATETIME
+    cambio_solicitado_por : VARCHAR
+    cambio_descripcion : TEXT
+    cambio_fecha : DATETIME
+    origen_ciudad : VARCHAR
+    origen_direccion : VARCHAR
+    destino_ciudad : VARCHAR
+    destino_direccion : VARCHAR
+    mercancia_descripcion : VARCHAR
+    mercancia_peso_kg : FLOAT
+    mercancia_largo_m : FLOAT
+    mercancia_ancho_m : FLOAT
+    mercancia_alto_m : FLOAT
+    mercancia_caracteristicas : VARCHAR
+    mercancia_alto_valor : BOOLEAN
+    fecha_requerida : DATE
+}
+entity orden_evidencias {
+  * id : INTEGER
+    orden_id : VARCHAR
+    categoria : VARCHAR
+    incidencia_numero : INTEGER
+    tipo : VARCHAR
+    referencia : VARCHAR
+    fecha : DATETIME
+    evento_asociado : VARCHAR
+}
+entity orden_historial {
+  * id : INTEGER
+    orden_id : VARCHAR
+    posicion : INTEGER
+    fecha : DATETIME
+    descripcion : TEXT
+    estado_resultante : VARCHAR
+    registrado_por : VARCHAR
+}
+entity orden_incidencias {
+  * orden_id : VARCHAR
+  * numero : INTEGER
+    tipo : VARCHAR
+    descripcion : TEXT
+    fecha_registro : DATETIME
+}
+clientes ||--o{ cotizaciones : cliente_id
+cotizaciones ||--o{ ordenes : cotizacion_id
+clientes ||--o{ ordenes : cliente_id
+unidades ||--o{ ordenes : asignacion_unidad_id
+operadores ||--o{ ordenes : asignacion_operador_id
+ordenes ||--o{ orden_evidencias : orden_id
+ordenes ||--o{ orden_historial : orden_id
+ordenes ||--o{ orden_incidencias : orden_id
+@enduml

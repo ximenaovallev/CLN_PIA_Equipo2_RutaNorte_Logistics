@@ -1,0 +1,149 @@
+@startuml 01_clases_dominio
+title Modelo de dominio: agregados, value objects, servicios y repositorios (src/domain)
+left to right direction
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam packageStyle rectangle
+hide empty members
+
+package "Agregado Cotizacion" {
+  class Cotizacion <<Aggregate Root>> {
+    +id
+    +cliente_id
+    +estado : EstadoCotizacion
+    +importe_mxn : Decimal
+    +modificar(solicitud)
+    +elaborar(importe_mxn)
+    +aceptar()
+    +rechazar()
+  }
+  enum EstadoCotizacion {
+    EN_PROCESO
+    ACEPTADA
+    RECHAZADA
+  }
+  class SolicitudDeCotizacion <<Value Object>>
+}
+
+package "Agregado OrdenDeServicio" {
+  class OrdenDeServicio <<Aggregate Root>> {
+    +id
+    +cotizacion_id
+    +cliente_id
+    +ruta
+    +generar_desde(cotizacion, ruta, horario)$
+    +estado_actual() : EstadoServicio
+    +asignar_recursos(asignacion)
+    +autorizar_alto_valor(autorizado_por)
+    +solicitar_cambio_operativo(solicitado_por, descripcion)
+    +revisar_cambio_operativo(revisado_por, aprobado)
+    +cancelar(solicitado_por, motivo)
+    +registrar_recepcion(evidencia)
+    +iniciar_traslado()
+    +registrar_llegada_a_destino()
+    +registrar_entrega(destinatario, evidencia)
+    +registrar_incidencia(tipo, descripcion, evidencia)
+    +evidencias(politica)
+  }
+  class EntradaDeHistorial <<Entity>>
+  class Incidencia <<Entity>>
+  class Cancelacion <<Value Object>>
+  class CambioOperativo <<Value Object>>
+  enum TipoDeIncidencia {
+    UNIDAD_AVERIADA
+    RETRASO
+    MERCANCIA_DIFERENTE
+    MERCANCIA_RECHAZADA
+    DIRECCION_INCORRECTA
+    DESTINATARIO_AUSENTE
+    ENTREGA_PARCIAL
+    MERCANCIA_DANADA
+  }
+}
+
+package "Value Objects" {
+  class Mercancia <<Value Object>>
+  class Peso <<Value Object>>
+  class Volumen <<Value Object>>
+  class Dimensiones <<Value Object>>
+  class Capacidad <<Value Object>>
+  class Ubicacion <<Value Object>>
+  class Horario <<Value Object>>
+  class Asignacion <<Value Object>>
+  class Destinatario <<Value Object>>
+  class Evidencia <<Value Object>>
+  class PoliticaDeConservacion <<Value Object>>
+  enum TipoDeEvidencia
+  enum EventoAsociado
+}
+
+package "Entidades de apoyo" {
+  class Cliente <<Entity>>
+  class Unidad <<Entity>>
+  class Operador <<Entity>> {
+    +esta_disponible()
+    +marcar_disponibilidad(disponible)
+  }
+}
+
+
+
+package "Domain Services" {
+  class AsignadorDeRecursos {
+    +validar_y_crear(orden, unidad, operador) : Asignacion
+  }
+  class AutoridadDeCancelacion {
+    +verificar(rol)
+  }
+}
+
+
+package "Repositories (puertos del dominio)" {
+  interface IClienteRepository
+  interface ICotizacionRepository
+  interface IOrdenServicioRepository
+  interface IUnidadRepository
+  interface IOperadorRepository
+}
+
+Cotizacion *-- SolicitudDeCotizacion
+Cotizacion --> EstadoCotizacion
+SolicitudDeCotizacion *-- Mercancia
+SolicitudDeCotizacion *-- "2" Ubicacion
+Mercancia *-- Peso
+Mercancia *-- Dimensiones
+Dimensiones ..> Volumen
+Capacidad *-- Peso
+Capacidad *-- Volumen
+Unidad *-- Capacidad
+
+OrdenDeServicio *-- "1..*" EntradaDeHistorial
+OrdenDeServicio *-- "0..*" Incidencia
+OrdenDeServicio *-- "0..1" Asignacion
+OrdenDeServicio *-- "0..1" Cancelacion
+OrdenDeServicio *-- "0..1" CambioOperativo
+OrdenDeServicio *-- Horario
+OrdenDeServicio *-- Mercancia
+OrdenDeServicio o-- "0..1" Destinatario
+OrdenDeServicio *-- "0..*" Evidencia
+OrdenDeServicio ..> Cotizacion : generar_desde
+Incidencia --> TipoDeIncidencia
+Incidencia *-- "0..*" Evidencia
+Evidencia --> TipoDeEvidencia
+Evidencia --> EventoAsociado
+OrdenDeServicio ..> PoliticaDeConservacion
+
+
+AsignadorDeRecursos ..> Asignacion : crea
+
+
+IClienteRepository ..> Cliente
+ICotizacionRepository ..> Cotizacion
+IOrdenServicioRepository ..> OrdenDeServicio
+IUnidadRepository ..> Unidad
+IOperadorRepository ..> Operador
+class EstadoServicio <<ver 02_estados_del_servicio>>
+class Especificacion <<ver 01b>>
+OrdenDeServicio --> EstadoServicio
+AsignadorDeRecursos o-- Especificacion : regla G2
+@enduml

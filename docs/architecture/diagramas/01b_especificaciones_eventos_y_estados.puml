@@ -1,0 +1,94 @@
+@startuml 01b_especificaciones_eventos_y_estados
+title Specification, Domain Events y State Machine (src/domain)
+skinparam shadowing false
+hide empty members
+left to right direction
+class OrdenDeServicio <<Aggregate Root>>
+class Cotizacion <<Aggregate Root>>
+class Unidad
+class Operador
+package "State Machine" {
+  class MaquinaDeEstados {
+    +aplicar(estado, disparador)
+    +es_valida(estado, disparador)
+    +disparadores_permitidos(estado)
+    +es_terminal(estado)
+  }
+  enum EstadoServicio
+  enum Disparador
+}
+package "Specification" {
+  abstract class Especificacion {
+    +es_satisfecha_por(candidato)
+    +motivos_de_incumplimiento(candidato)
+    +& (Y)
+    +| (O)
+    +~ (NO)
+  }
+  class Y
+  class O
+  class No
+  class UnidadConCapacidadSuficiente
+  class DentroDeLosLimitesDeLaEmpresa
+  class OperadorDisponible
+  class CargaDeAltoValor
+  class AltoValorAutorizado
+  class CambioOperativoPendiente
+  class ReceptorIdentificado
+  class EvidenciaDelEvento
+  class CotizacionEnProceso
+  class CotizacionConImporte
+  class AceptadaPorElCliente
+  class CandidatoDeAsignacion <<Value Object>>
+}
+package "Domain Events" {
+  abstract class EventoDeDominio
+  class CotizacionElaborada
+  class CotizacionAceptada
+  class OrdenDeServicioGenerada
+  class RecursosAsignados
+  class CargaDeAltoValorAutorizada
+  class ServicioCancelado
+  class EntregaRegistrada
+  class IncidenciaRegistrada
+  class EstadoDelServicioCambiado
+  class CambioOperativoSolicitado
+  class CambioOperativoRevisado
+}
+
+Y --|> Especificacion
+O --|> Especificacion
+No --|> Especificacion
+UnidadConCapacidadSuficiente --|> Especificacion
+DentroDeLosLimitesDeLaEmpresa --|> Especificacion
+OperadorDisponible --|> Especificacion
+CargaDeAltoValor --|> Especificacion
+AltoValorAutorizado --|> Especificacion
+CambioOperativoPendiente --|> Especificacion
+ReceptorIdentificado --|> Especificacion
+EvidenciaDelEvento --|> Especificacion
+CotizacionEnProceso --|> Especificacion
+CotizacionConImporte --|> Especificacion
+AceptadaPorElCliente --|> Especificacion
+Especificacion ..> CandidatoDeAsignacion
+CandidatoDeAsignacion ..> OrdenDeServicio
+CandidatoDeAsignacion ..> Unidad
+CandidatoDeAsignacion ..> Operador
+OrdenDeServicio ..> Especificacion : control de alto valor,\nentrega y recepción documentadas
+Cotizacion ..> Especificacion : en proceso / con importe
+MaquinaDeEstados ..> EstadoServicio
+MaquinaDeEstados ..> Disparador
+OrdenDeServicio ..> MaquinaDeEstados : CICLO_DE_VIDA_DEL_SERVICIO
+CotizacionElaborada --|> EventoDeDominio
+CotizacionAceptada --|> EventoDeDominio
+OrdenDeServicioGenerada --|> EventoDeDominio
+RecursosAsignados --|> EventoDeDominio
+CargaDeAltoValorAutorizada --|> EventoDeDominio
+ServicioCancelado --|> EventoDeDominio
+EntregaRegistrada --|> EventoDeDominio
+IncidenciaRegistrada --|> EventoDeDominio
+EstadoDelServicioCambiado --|> EventoDeDominio
+CambioOperativoSolicitado --|> EventoDeDominio
+CambioOperativoRevisado --|> EventoDeDominio
+OrdenDeServicio ..> EventoDeDominio : extraer_eventos()
+@enduml

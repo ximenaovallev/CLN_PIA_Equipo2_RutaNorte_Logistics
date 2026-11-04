@@ -1,0 +1,56 @@
+@startuml 04_capas_y_componentes
+title Capas y dependencias (las flechas apuntan hacia el dominio)
+skinparam shadowing false
+skinparam componentStyle rectangle
+
+package "api (FastAPI)" {
+  [rutas.py] as rutas
+  [esquemas.py] as esquemas
+  [errores.py] as errores
+  [main.py] as main
+}
+package "application (Service Layer / CQRS básico)" {
+  [comandos.py\nCommands y Queries] as comandos
+  [handlers.py\nUn handler por caso de uso] as handlers
+  [puertos.py\nIUnitOfWork, IConsultaDeServicios,\nIPublicadorDeEventos] as puertos
+  [dto.py\nResultado y View Models] as dto
+}
+package "domain (sin dependencias externas)" {
+  [OrdenDeServicio, Cotizacion\n(Aggregates)] as agregados
+  [especificaciones.py\n(Specification AND/OR/NOT)] as specs
+  [maquina_de_estados.py\n(State Machine)] as maquina
+  [servicios.py\n(Domain Services)] as servicios
+  [eventos.py\n(Domain Events)] as eventos
+  [repositorios.py\n(puertos de persistencia)] as repos
+}
+package "infrastructure" {
+  [composicion.py\n(raíz de composición)] as comp
+  [configuracion.py\n(12-Factor)] as config
+  [sql/\nSQLAlchemy Core: repositorios,\nUnitOfWork, consulta, publicador] as sql
+  [en_memoria.py\n(mismo contrato, para pruebas)] as mem
+}
+database "PostgreSQL 16" as pg
+
+main --> rutas
+rutas --> esquemas
+rutas --> errores
+rutas --> handlers
+handlers --> comandos
+handlers --> puertos
+handlers --> dto
+handlers --> agregados
+handlers --> servicios
+agregados --> specs
+agregados --> maquina
+agregados --> eventos
+servicios --> specs
+sql ..|> puertos : implementa
+sql ..|> repos : implementa
+mem ..|> puertos : implementa
+mem ..|> repos : implementa
+comp --> sql
+comp --> mem
+comp --> config
+comp --> handlers
+sql --> pg
+@enduml
