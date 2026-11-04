@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  pruebas:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: rutanorte
+          POSTGRES_PASSWORD: ci_password_no_secreto
+          POSTGRES_DB: rutanorte_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U rutanorte -d rutanorte_test"
+          --health-interval 5s --health-timeout 3s --health-retries 10
+    env:
+      TEST_DATABASE_URL: postgresql://rutanorte:ci_password_no_secreto@localhost:5432/rutanorte_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+      - run: pip install -r requirements-dev.txt
+      - name: Pruebas unitarias e integración (memoria, SQLite y PostgreSQL) con cobertura mínima de 80 %
+        run: pytest --cov --cov-report=term-missing --cov-report=xml --cov-fail-under=80
+      - name: Evidencia del paquete de datos (120 casos + 20 transiciones)
+        run: python scripts/ejecutar_paquete.py
+      - name: El contrato OpenAPI publicado coincide con el código
+        run: python scripts/exportar_openapi.py --verificar
+      - uses: actions/upload-artifact@v4
+        with:
+          name: evidencias
+          path: |
+            coverage.xml
+            docs/evidencias/*.csv
+
+  imagen-docker:
+    needs: pruebas
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Construir la imagen de producción
+        run: docker build -t rutanorte-api:ci .
+      - name: Validar docker-compose.yml
+        run: docker compose --env-file .env.example config --quiet
+      - name: Humo de la imagen (arranca y responde /health)
+        run: |
+          docker run -d --name api -p 8000:8000 -e DATABASE_URL=sqlite:///:memory: rutanorte-api:ci
+          for i in $(seq 1 20); do curl -fsS http://localhost:8000/health && exit 0; sleep 1; done
+          docker logs api; exit 1
+
+  # CD: Render despliega automáticamente cada push a main cuando el repo está conectado (render.yaml, autoDeploy).
+  # Este job dispara además el despliegue si se configura el secreto RENDER_DEPLOY_HOOK_URL.
+  despliegue:
+    needs: [pruebas, imagen-docker]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Disparar despliegue en Render
+        env:
+          HOOK: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$HOOK" ]; then echo "Sin RENDER_DEPLOY_HOOK_URL: Render despliega por autoDeploy al detectar el push."; exit 0; fi
+          curl -fsS -X POST "$HOOK"

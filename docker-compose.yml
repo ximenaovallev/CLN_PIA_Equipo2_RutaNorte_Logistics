@@ -1,0 +1,53 @@
+# Servicios: db (PostgreSQL) + app (API) + tests (perfil "tests").
+#   docker compose up --build                      -> base de datos + API en http://localhost:8000/docs
+#   docker compose --profile tests run --rm tests  -> pruebas con cobertura contra PostgreSQL (falla si < 80 %)
+name: rutanorte
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-rutanorte}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Define POSTGRES_PASSWORD en .env (copia .env.example)}
+      POSTGRES_DB: ${POSTGRES_DB:-rutanorte}
+    volumes:
+      - datos_postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  app:
+    build:
+      context: .
+    environment:
+      DATABASE_URL: ${DATABASE_URL:?Define DATABASE_URL en .env (copia .env.example)}
+      APP_ENV: ${APP_ENV:-desarrollo}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      LIMITE_PESO_KG: ${LIMITE_PESO_KG:-}
+      LIMITE_VOLUMEN_M3: ${LIMITE_VOLUMEN_M3:-}
+      DIAS_CONSERVACION_EVIDENCIAS: ${DIAS_CONSERVACION_EVIDENCIAS:-}
+      ROLES_QUE_CANCELAN: ${ROLES_QUE_CANCELAN:-Operaciones}
+      PORT: 8000
+    ports:
+      - "${PORT:-8000}:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  tests:
+    profiles: ["tests"]
+    build:
+      context: .
+      args:
+        INSTALAR_DEV: "true"
+    environment:
+      TEST_DATABASE_URL: ${DATABASE_URL:?Define DATABASE_URL en .env (copia .env.example)}
+    depends_on:
+      db:
+        condition: service_healthy
+    command: ["pytest", "--cov", "--cov-fail-under=80", "-p", "no:cacheprovider"]
+
+volumes:
+  datos_postgres:
