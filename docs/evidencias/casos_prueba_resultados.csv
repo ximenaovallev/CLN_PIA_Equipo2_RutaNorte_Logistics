@@ -1,0 +1,121 @@
+﻿caso_id,operacion_id,tipo_prueba,regla_a_verificar,total_mxn,resultado_esperado_oraculo,resultado_obtenido_specification,resultado_alumno,evidencia
+ENV-T001,ENV-O001,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,7265.00,True,True,PASA,se cumple
+ENV-B001,ENV-O001,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,7265.00,True,True,PASA,se cumple
+ENV-T002,ENV-O002,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,6271.00,True,True,PASA,se cumple
+ENV-B002,ENV-O002,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,6271.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T003,ENV-O003,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,1261.00,True,True,PASA,se cumple
+ENV-B003,ENV-O003,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,1261.00,False,False,PASA,No se cumple: el cliente es preferente. No se cumple: el total es de al menos 1500 MXN.
+ENV-T004,ENV-O004,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,4175.00,True,True,PASA,se cumple
+ENV-B004,ENV-O004,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,4175.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T005,ENV-O005,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,4266.00,True,True,PASA,se cumple
+ENV-B005,ENV-O005,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,4266.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T006,ENV-O006,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,1920.00,True,True,PASA,se cumple
+ENV-B006,ENV-O006,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,1920.00,True,True,PASA,se cumple
+ENV-T007,ENV-O007,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,2789.00,True,True,PASA,se cumple
+ENV-B007,ENV-O007,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,2789.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T008,ENV-O008,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,12059.00,False,False,PASA,No se cumple: la operación está autorizada.
+ENV-B008,ENV-O008,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,12059.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T009,ENV-O009,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,3357.00,True,True,PASA,se cumple
+ENV-B009,ENV-O009,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,3357.00,False,False,PASA,No se cumple: el cliente es preferente. No debe cumplirse: hay una promoción activa.
+ENV-T010,ENV-O010,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,5595.00,True,True,PASA,se cumple
+ENV-B010,ENV-O010,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,5595.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T011,ENV-O011,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,5010.00,True,True,PASA,se cumple
+ENV-B011,ENV-O011,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,5010.00,True,True,PASA,se cumple
+ENV-T012,ENV-O012,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,676.00,False,False,PASA,No se cumple: el cliente está activo.
+ENV-B012,ENV-O012,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,676.00,False,False,PASA,No se cumple: el cliente es preferente. No se cumple: el total es de al menos 1500 MXN.
+ENV-T013,ENV-O013,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,0.00,False,False,PASA,No se cumple: el cliente está activo. No se cumple: la operación tiene al menos una línea.
+ENV-B013,ENV-O013,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,0.00,False,False,PASA,No se cumple: el cliente es preferente. No se cumple: el total es de al menos 1500 MXN.
+ENV-T014,ENV-O014,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,7123.00,False,False,PASA,No se cumple: el cliente está activo.
+ENV-B014,ENV-O014,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,7123.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T015,ENV-O015,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,977.00,False,False,PASA,No se cumple: el cliente está activo.
+ENV-B015,ENV-O015,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,977.00,False,False,PASA,No se cumple: el cliente es preferente. No se cumple: el total es de al menos 1500 MXN.
+ENV-T016,ENV-O016,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,7015.00,False,False,PASA,No se cumple: el cliente está activo. No se cumple: la operación está autorizada.
+ENV-B016,ENV-O016,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,7015.00,True,True,PASA,se cumple
+ENV-T017,ENV-O017,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,6254.00,True,True,PASA,se cumple
+ENV-B017,ENV-O017,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,6254.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T018,ENV-O018,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,6464.00,True,True,PASA,se cumple
+ENV-B018,ENV-O018,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,6464.00,False,False,PASA,No se cumple: el cliente es preferente. No debe cumplirse: hay una promoción activa.
+ENV-T019,ENV-O019,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,1937.00,True,True,PASA,se cumple
+ENV-B019,ENV-O019,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,1937.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T020,ENV-O020,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,9503.00,True,True,PASA,se cumple
+ENV-B020,ENV-O020,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,9503.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T021,ENV-O021,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,2505.00,True,True,PASA,se cumple
+ENV-B021,ENV-O021,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,2505.00,True,True,PASA,se cumple
+ENV-T022,ENV-O022,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,5595.00,True,True,PASA,se cumple
+ENV-B022,ENV-O022,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,5595.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T023,ENV-O023,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,6146.00,True,True,PASA,se cumple
+ENV-B023,ENV-O023,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,6146.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T024,ENV-O024,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,2948.00,False,False,PASA,No se cumple: la operación está autorizada.
+ENV-B024,ENV-O024,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,2948.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T025,ENV-O025,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,3289.00,True,True,PASA,se cumple
+ENV-B025,ENV-O025,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,3289.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T026,ENV-O026,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,5135.00,True,True,PASA,se cumple
+ENV-B026,ENV-O026,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,5135.00,True,True,PASA,se cumple
+ENV-T027,ENV-O027,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,693.00,True,True,PASA,se cumple
+ENV-B027,ENV-O027,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,693.00,False,False,PASA,No se cumple: el cliente es preferente. No se cumple: el total es de al menos 1500 MXN. No debe cumplirse: hay una promoción activa.
+ENV-T028,ENV-O028,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,5595.00,True,True,PASA,se cumple
+ENV-B028,ENV-O028,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,5595.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T029,ENV-O029,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,9662.00,True,True,PASA,se cumple
+ENV-B029,ENV-O029,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,9662.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T030,ENV-O030,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,5328.00,True,True,PASA,se cumple
+ENV-B030,ENV-O030,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,5328.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T031,ENV-O031,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,2505.00,True,True,PASA,se cumple
+ENV-B031,ENV-O031,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,2505.00,True,True,PASA,se cumple
+ENV-T032,ENV-O032,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,6947.00,False,False,PASA,No se cumple: la operación está autorizada.
+ENV-B032,ENV-O032,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,6947.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T033,ENV-O033,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,1653.00,True,True,PASA,se cumple
+ENV-B033,ENV-O033,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,1653.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T034,ENV-O034,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,4175.00,True,True,PASA,se cumple
+ENV-B034,ENV-O034,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,4175.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T035,ENV-O035,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,4442.00,True,True,PASA,se cumple
+ENV-B035,ENV-O035,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,4442.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T036,ENV-O036,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,2380.00,True,True,PASA,se cumple
+ENV-B036,ENV-O036,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,2380.00,False,False,PASA,No debe cumplirse: hay una promoción activa.
+ENV-T037,ENV-O037,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,5561.00,True,True,PASA,se cumple
+ENV-B037,ENV-O037,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,5561.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T038,ENV-O038,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,8827.00,True,True,PASA,se cumple
+ENV-B038,ENV-O038,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,8827.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T039,ENV-O039,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,0.00,False,False,PASA,No se cumple: la operación tiene al menos una línea.
+ENV-B039,ENV-O039,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,0.00,False,False,PASA,No se cumple: el cliente es preferente. No se cumple: el total es de al menos 1500 MXN.
+ENV-T040,ENV-O040,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,4175.00,False,False,PASA,No se cumple: la operación está autorizada.
+ENV-B040,ENV-O040,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,4175.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T041,ENV-O041,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,8810.00,True,True,PASA,se cumple
+ENV-B041,ENV-O041,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,8810.00,True,True,PASA,se cumple
+ENV-T042,ENV-O042,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,4192.00,True,True,PASA,se cumple
+ENV-B042,ENV-O042,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,4192.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T043,ENV-O043,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,4493.00,True,True,PASA,se cumple
+ENV-B043,ENV-O043,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,4493.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T044,ENV-O044,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,7231.00,True,True,PASA,se cumple
+ENV-B044,ENV-O044,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,7231.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T045,ENV-O045,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,801.00,True,True,PASA,se cumple
+ENV-B045,ENV-O045,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,801.00,False,False,PASA,No se cumple: el cliente es preferente. No se cumple: el total es de al menos 1500 MXN. No debe cumplirse: hay una promoción activa.
+ENV-T046,ENV-O046,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,2755.00,True,True,PASA,se cumple
+ENV-B046,ENV-O046,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,2755.00,True,True,PASA,se cumple
+ENV-T047,ENV-O047,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,6998.00,True,True,PASA,se cumple
+ENV-B047,ENV-O047,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,6998.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T048,ENV-O048,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,1812.00,False,False,PASA,No se cumple: la operación está autorizada.
+ENV-B048,ENV-O048,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,1812.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T049,ENV-O049,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,9253.00,True,True,PASA,se cumple
+ENV-B049,ENV-O049,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,9253.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T050,ENV-O050,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,6839.00,True,True,PASA,se cumple
+ENV-B050,ENV-O050,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,6839.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T051,ENV-O051,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,1545.00,True,True,PASA,se cumple
+ENV-B051,ENV-O051,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,1545.00,True,True,PASA,se cumple
+ENV-T052,ENV-O052,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,2755.00,False,False,PASA,No se cumple: el cliente está activo.
+ENV-B052,ENV-O052,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,2755.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T053,ENV-O053,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,6538.00,False,False,PASA,No se cumple: el cliente está activo.
+ENV-B053,ENV-O053,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,6538.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T054,ENV-O054,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,3056.00,False,False,PASA,No se cumple: el cliente está activo.
+ENV-B054,ENV-O054,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,3056.00,False,False,PASA,No se cumple: el cliente es preferente. No debe cumplirse: hay una promoción activa.
+ENV-T055,ENV-O055,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,3641.00,False,False,PASA,No se cumple: el cliente está activo.
+ENV-B055,ENV-O055,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,3641.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T056,ENV-O056,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,8935.00,False,False,PASA,No se cumple: el cliente está activo. No se cumple: la operación está autorizada.
+ENV-B056,ENV-O056,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,8935.00,True,True,PASA,se cumple
+ENV-T057,ENV-O057,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,4209.00,True,True,PASA,se cumple
+ENV-B057,ENV-O057,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,4209.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T058,ENV-O058,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,7015.00,True,True,PASA,se cumple
+ENV-B058,ENV-O058,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,7015.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T059,ENV-O059,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,5294.00,True,True,PASA,se cumple
+ENV-B059,ENV-O059,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,5294.00,False,False,PASA,No se cumple: el cliente es preferente.
+ENV-T060,ENV-O060,validar_operacion,validar cliente activo AND detalle no vacio AND autorizacion,1244.00,True,True,PASA,se cumple
+ENV-B060,ENV-O060,evaluar_beneficio,VIP AND total >=1500 AND NOT promocion,1244.00,False,False,PASA,No se cumple: el cliente es preferente. No se cumple: el total es de al menos 1500 MXN.
