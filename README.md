@@ -9,6 +9,7 @@ Producto Integrador de Aprendizaje · Componentes de Lógica de Negocio · Profe
 | Repositorio | `https://github.com/ximenaovallev/CLN_PIA_Equipo2_RutaNorte_Logistics` |
 | Sistema desplegado | `https://rutanorte-api.onrender.com` |
 | Swagger UI | `https://rutanorte-api.onrender.com/docs` · OpenAPI: `https://rutanorte-api.onrender.com/openapi.json` |
+| Reporte final | `docs/CLN_PIA_Equipo2_REPORTE.pdf` (versión editable: `docs/CLN_PIA_Equipo2_REPORTE.docx`) |
 
 > La API implementa el proceso de cotización y ejecución de servicios de transporte de RutaNorte Logistics: cotizar, aceptar, generar la orden, asignar recursos, ejecutar, entregar con evidencia o cancelar. Las reglas del BRD (R-01…R-22) viven en el dominio (DDD + Specification + máquina de estados).
 
@@ -39,7 +40,8 @@ Regla de dependencias: `api → application → domain ← infrastructure` (veri
 | Diagramas DDD/UML (PlantUML + PNG) | `docs/architecture/diagramas/` |
 | Matriz de trazabilidad | `docs/architecture/trazabilidad.md` (verificada por `tests/test_trazabilidad.py`) |
 | OpenAPI | `docs/api/openapi.json` |
-| Evidencias de ejecución | `docs/evidencias/` |
+| Evidencias de ejecución | `docs/evidencias/` (capturas en `docs/evidencias/capturas/`) |
+| Reporte final del PIA (PDF y Word) | `docs/CLN_PIA_Equipo2_REPORTE.pdf`, `docs/CLN_PIA_Equipo2_REPORTE.docx` |
 
 ## 3. Instalación
 
@@ -120,6 +122,7 @@ Carpeta `docs/evidencias/capturas/`:
 | `01_github_repositorio.png` | Repositorio con estructura e historial de commits |
 | `02_ci_primer_run_fallido.png` · `03_ci_run2_en_verde.png` · `04_ci_historial_de_runs.png` | CI: fallo inicial, corrección y historial hasta verde |
 | `19_ci_summary_3_jobs_en_verde.png` | Resumen del run de CI: pruebas, imagen-docker y despliegue en verde |
+| `20_ci_runs_de_los_tres_integrantes.png` | Ejecuciones de CI en verde disparadas por commits de los tres integrantes |
 | `05_ci_pruebas_y_cobertura.png` | Paso de pruebas en CI: 337 pruebas, cobertura 98 % (mínimo 80 %) |
 | `18_pruebas_locales_270_passed.png` | Pruebas locales (memoria y SQLite): 270 aprobadas, cobertura 98 % |
 | `06_render_blueprint_sincronizado.png` · `07_render_servicio_live.png` | Despliegue en Render (Blueprint, servicio *Live*) |
