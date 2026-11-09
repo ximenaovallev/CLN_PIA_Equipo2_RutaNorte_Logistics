@@ -2,11 +2,12 @@
 from __future__ import annotations
 
 import logging
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
-from fastapi.responses import JSONResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 
 from domain.comunes import ErrorDeDominio
 from infrastructure.composicion import Aplicacion, construir_aplicacion
@@ -62,6 +63,11 @@ def crear_app(aplicacion: Aplicacion | None = None, config: Configuracion | None
              description="Responde «ok» si el sistema está en marcha. No necesita datos.")
     def health() -> dict:
         return {"estado": "ok", "entorno": config.entorno}
+
+    @app.get("/interfaz", include_in_schema=False, response_class=HTMLResponse)
+    def interfaz() -> HTMLResponse:
+        """Pantalla amigable para usar todo el sistema sin Swagger."""
+        return HTMLResponse((Path(__file__).parent / "interfaz.html").read_text(encoding="utf-8"))
 
     @app.get("/", include_in_schema=False)
     def inicio() -> RedirectResponse:

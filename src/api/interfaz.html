@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RutaNorte Logistics · Pantalla de uso</title>
+<style>
+:root{--azul:#0b3d5c;--azul2:#14597f;--verde:#1c7c4d;--verdefondo:#e6f4ec;--rojo:#a8281f;--rojofondo:#fdeceb;--ambar:#8a5a00;--ambarfondo:#fff4de;--fondo:#f3f6f9;--tarjeta:#fff;--texto:#1b2733;--suave:#5b6b7a;--borde:#d5dde5;--acento:#e8f1f8}
+@media (prefers-color-scheme:dark){:root{--azul:#7cc0ea;--azul2:#9fd3f3;--verde:#6fd49b;--verdefondo:#14301f;--rojo:#ff9b92;--rojofondo:#3a1815;--ambar:#f1c36b;--ambarfondo:#37290c;--fondo:#10161c;--tarjeta:#18212a;--texto:#e8eef3;--suave:#9aabba;--borde:#2c3946;--acento:#1b2b38}}
+*{box-sizing:border-box}
+body{margin:0;font:17px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--fondo);color:var(--texto)}
+header{background:linear-gradient(120deg,#0b3d5c,#14597f);color:#fff;padding:18px 20px}
+header .in{max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+header h1{margin:0;font-size:24px}
+header p{margin:2px 0 0;opacity:.9;font-size:15px}
+#estado{font-size:14px;background:rgba(255,255,255,.16);padding:6px 12px;border-radius:99px}
+.wrap{max-width:1180px;margin:0 auto;padding:16px;display:grid;grid-template-columns:270px 1fr;gap:18px}
+@media (max-width:860px){.wrap{grid-template-columns:1fr}}
+nav{background:var(--tarjeta);border:1px solid var(--borde);border-radius:14px;padding:10px;align-self:start;position:sticky;top:10px;max-height:calc(100vh - 20px);overflow:auto}
+@media (max-width:860px){nav{position:static;max-height:none}}
+nav h3{margin:12px 8px 4px;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--suave)}
+nav a{display:block;padding:8px 10px;border-radius:9px;color:var(--texto);text-decoration:none;font-size:15.5px;cursor:pointer}
+nav a:hover{background:var(--acento)}
+nav a.on{background:var(--azul);color:#fff}
+@media (prefers-color-scheme:dark){nav a.on{color:#0b1218}}
+.card{background:var(--tarjeta);border:1px solid var(--borde);border-radius:14px;padding:20px;margin-bottom:16px}
+h2{margin:0 0 6px;font-size:24px;color:var(--azul)}
+.desc{color:var(--suave);margin:0 0 14px}
+.field{margin:0 0 14px}
+.field label{display:block;font-weight:650;margin-bottom:3px}
+.field .req{color:var(--rojo)}
+.field small{display:block;color:var(--suave);font-size:14px;margin-top:3px}
+input,select,textarea{width:100%;font:inherit;padding:11px 12px;border:1.5px solid var(--borde);border-radius:10px;background:var(--fondo);color:var(--texto)}
+input:focus,select:focus,textarea:focus{outline:3px solid #14597f55;border-color:var(--azul2)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+@media (max-width:640px){.grid2{grid-template-columns:1fr}}
+fieldset{border:1px dashed var(--borde);border-radius:12px;margin:0 0 14px;padding:12px 14px}
+legend{font-weight:700;color:var(--azul);padding:0 6px}
+button{font:inherit;font-weight:650;border:0;border-radius:10px;padding:12px 20px;cursor:pointer}
+.primario{background:var(--azul);color:#fff}
+@media (prefers-color-scheme:dark){.primario{color:#0b1218}}
+.primario:disabled{opacity:.6;cursor:wait}
+.sec{background:var(--acento);color:var(--azul)}
+.fila{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.ok{background:var(--verdefondo);border:1.5px solid var(--verde);border-radius:12px;padding:16px}
+.mal{background:var(--rojofondo);border:1.5px solid var(--rojo);border-radius:12px;padding:16px}
+.aviso{background:var(--ambarfondo);border:1.5px solid var(--ambar);border-radius:12px;padding:14px;color:var(--texto)}
+.ok h4,.mal h4{margin:0 0 6px;font-size:19px}
+.ok h4{color:var(--verde)}.mal h4{color:var(--rojo)}
+.siguiente{margin-top:10px}
+details{margin-top:10px;font-size:14px;color:var(--suave)}
+pre{white-space:pre-wrap;word-break:break-word;background:var(--fondo);padding:10px;border-radius:8px;margin:6px 0 0}
+.kv{display:grid;grid-template-columns:minmax(120px,200px) 1fr;gap:6px 14px;margin:0}
+@media (max-width:560px){.kv{grid-template-columns:1fr}}
+.kv dt{color:var(--suave)}.kv dd{margin:0;font-weight:600;word-break:break-word}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.tile{background:var(--acento);border-radius:12px;padding:14px}
+.tile b{display:block;font-size:30px;color:var(--azul);line-height:1.1}
+.tile span{color:var(--suave);font-size:14.5px}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--borde);vertical-align:top}
+th{color:var(--suave);font-weight:600}
+.pasos{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+.paso{flex:1 1 90px;min-width:84px;text-align:center;font-size:13px;padding:8px 4px;border-radius:9px;background:var(--acento);color:var(--suave)}
+.paso.hecho{background:var(--verdefondo);color:var(--verde);font-weight:700}
+.paso.ahora{background:var(--azul);color:#fff;font-weight:700}
+@media (prefers-color-scheme:dark){.paso.ahora{color:#0b1218}}
+.paso.cancel{background:var(--rojofondo);color:var(--rojo);font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:var(--acento);border-radius:99px;padding:5px 12px;font-size:14px;display:inline-flex;gap:8px;align-items:center}
+.chip b{color:var(--azul)}
+.chip button{padding:2px 8px;font-size:12.5px;border-radius:99px;background:var(--tarjeta);color:var(--azul)}
+.camino{counter-reset:p;list-style:none;padding:0;margin:0}
+.camino li{counter-increment:p;display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--borde)}
+.camino li:before{content:counter(p);flex:none;width:30px;height:30px;border-radius:50%;background:var(--azul);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+@media (prefers-color-scheme:dark){.camino li:before{color:#0b1218}}
+.camino a{color:var(--azul2);font-weight:650;cursor:pointer}
+footer{max-width:1180px;margin:0 auto;padding:6px 18px 30px;color:var(--suave);font-size:14px}
+footer a{color:var(--azul2)}
+.eti{display:inline-block;padding:2px 10px;border-radius:99px;background:var(--acento);color:var(--azul);font-weight:650;font-size:14px}
+</style>
+</head>
+<body>
+<header><div class="in">
+  <div><h1>🚚 RutaNorte Logistics</h1><p>Pida cotizaciones, cree órdenes y siga cada envío. Aquí no necesita saber de programación.</p></div>
+  <div id="estado">Comprobando el sistema…</div>
+</div></header>
+<div class="wrap">
+  <nav id="nav" aria-label="Menú"></nav>
+  <main id="main"></main>
+</div>
+<footer>¿Es usted técnico? La página para desarrolladores está en <a href="/docs">/docs</a> (Swagger UI) y el contrato en <a href="/openapi.json">/openapi.json</a>.</footer>
+
+<script>
+"use strict";
+/* ---------- Palabras sencillas ---------- */
+const SITUACION={SOLICITADO:"Solicitado",COTIZADO:"Cotizado",CONFIRMADO:"Confirmado",UNIDAD_ASIGNADA:"Camión y operador asignados",RECOLECTADO:"Mercancía recolectada",EN_TRANSITO:"En camino",LLEGADA_A_DESTINO:"Llegó a su destino",ENTREGADO:"Entregado",CANCELADO:"Cancelado",EN_PROCESO:"En proceso",ACEPTADA:"Aceptada",RECHAZADA:"Rechazada"};
+const RUTA_ESTADOS=["SOLICITADO","COTIZADO","CONFIRMADO","UNIDAD_ASIGNADA","RECOLECTADO","EN_TRANSITO","LLEGADA_A_DESTINO","ENTREGADO"];
+const ACCION={ASIGNAR_RECURSOS:["asignar","Asignar camión y operador"],REGISTRAR_RECEPCION:["recepcion","Registrar que se recogió la mercancía"],INICIAR_TRASLADO:["traslado","Registrar que salió el camión"],REGISTRAR_LLEGADA:["llegada","Registrar que llegó al destino"],REGISTRAR_ENTREGA:["entrega","Registrar la entrega"],CANCELAR:["cancelar","Cancelar el servicio"]};
+const MEMNOM={cliente:"Cliente",unidad:"Camión",operador:"Operador",cotizacion:"Cotización",orden:"Orden"};
+const INCIDENCIAS=[["UNIDAD_AVERIADA","El camión se descompuso"],["RETRASO","Hay un retraso"],["MERCANCIA_DIFERENTE","La mercancía es distinta a la declarada"],["MERCANCIA_RECHAZADA","La mercancía fue rechazada"],["DIRECCION_INCORRECTA","La dirección es incorrecta"],["DESTINATARIO_AUSENTE","No había quién recibiera"],["ENTREGA_PARCIAL","Solo se entregó una parte"],["MERCANCIA_DANADA","La mercancía llegó dañada"]];
+const EVID=[["FOTOGRAFIA","Fotografía"],["DOCUMENTO","Documento"]];
+const SINO=[["true","Sí"],["false","No"]];
+
+/* ---------- Memoria (para no copiar números a mano) ---------- */
+const mem={};
+function mget(k){try{return sessionStorage.getItem("rn_"+k)||mem[k]||""}catch(e){return mem[k]||""}}
+function mset(k,v){if(!v)return;mem[k]=v;try{sessionStorage.setItem("rn_"+k,v)}catch(e){}}
+function mclear(){Object.keys(MEMNOM).forEach(k=>{delete mem[k];try{sessionStorage.removeItem("rn_"+k)}catch(e){}})}
+const rid=p=>p+"-"+Math.floor(100+Math.random()*900);
+const hoy=(d=0)=>{const x=new Date();x.setDate(x.getDate()+d);return x.toISOString().slice(0,10)};
+const hora=(d)=>{const x=new Date();x.setDate(x.getDate()+d);x.setHours(8,0,0,0);const p=n=>String(n).padStart(2,"0");return `${x.getFullYear()}-${p(x.getMonth()+1)}-${p(x.getDate())}T08:00`};
+
+/* ---------- Campos reutilizables ---------- */
+const solicitud=(pre)=>[
+ {n:pre+"origen.ciudad",l:"Ciudad de origen",k:"text",r:1,d:"Monterrey",g:"De dónde sale la mercancía"},
+ {n:pre+"origen.direccion",l:"Dirección de recolección",k:"text",d:"Av. Industria 100, Parque Industrial",g:"De dónde sale la mercancía"},
+ {n:pre+"destino.ciudad",l:"Ciudad de destino",k:"text",r:1,d:"Querétaro",g:"A dónde va"},
+ {n:pre+"destino.direccion",l:"Dirección de entrega",k:"text",d:"Calle Parque 5, Zona Industrial",g:"A dónde va"},
+ {n:pre+"mercancia.descripcion",l:"¿Qué se va a transportar?",k:"text",r:1,d:"Refacciones automotrices",g:"La mercancía"},
+ {n:pre+"mercancia.peso_kg",l:"Peso total (kilogramos)",k:"num",r:1,d:"800",g:"La mercancía"},
+ {n:pre+"mercancia.largo_m",l:"Largo (metros)",k:"num",r:1,d:"2",g:"La mercancía"},
+ {n:pre+"mercancia.ancho_m",l:"Ancho (metros)",k:"num",r:1,d:"1.5",g:"La mercancía"},
+ {n:pre+"mercancia.alto_m",l:"Alto (metros)",k:"num",r:1,d:"1.5",g:"La mercancía"},
+ {n:pre+"mercancia.caracteristicas_especiales",l:"Cuidados especiales (opcional)",k:"text",o:1,h:"Por ejemplo: frágil, mantener seco",g:"La mercancía"},
+ {n:pre+"mercancia.alto_valor",l:"¿Es una carga de mucho valor?",k:"sel",opt:SINO,d:"false",h:"Si responde Sí, Operaciones deberá autorizarla antes de asignar camión.",g:"La mercancía"},
+ {n:pre+"fecha_requerida",l:"¿Para qué día la necesita?",k:"date",r:1,d:()=>hoy(30),g:"Cuándo"}];
+const id=(n,l,mm,extra)=>Object.assign({n,l,k:"text",r:1,mem:mm,in:"path",h:"Se llena solo con lo último que usted hizo. Puede cambiarlo."},extra||{});
+const evid=(pre,req)=>[
+ {n:pre+"tipo",l:"Tipo de evidencia",k:"sel",opt:EVID,d:"FOTOGRAFIA",g:"Evidencia",grp:req?0:"ev"},
+ {n:pre+"referencia",l:"Nombre o enlace de la evidencia",k:"text",r:req?1:0,o:req?0:1,d:req?"https://ejemplo.com/fotos/evidencia-001.jpg":"",h:"Escriba el enlace de la foto o el nombre del documento.",g:"Evidencia",grp:req?0:"ev"}];
+
+/* ---------- Las 27 acciones del sistema ---------- */
+const OPS=[
+{id:"cli_reg",s:1,t:"Registrar un cliente",d:"Dé de alta a la empresa que pide el servicio. Es lo primero que se hace.",m:"POST",p:"/clientes",
+ f:[{n:"id",l:"Código del cliente",k:"text",r:1,d:()=>rid("CLI"),h:"Lo inventa usted y no se puede repetir. Ejemplo: CLI-001"},{n:"nombre",l:"Nombre de la empresa",k:"text",r:1,d:"Refacciones del Norte S.A. de C.V."},{n:"ciudad",l:"Ciudad (opcional)",k:"text",o:1,d:"Monterrey"}],
+ save:[["cliente","body.id"]],next:["cot_new"]},
+{id:"cli_get",s:1,t:"Consultar un cliente",d:"Vea los datos de un cliente ya registrado.",m:"GET",p:"/clientes/{cliente_id}",f:[id("cliente_id","Código del cliente","cliente")],view:"ficha"},
+{id:"uni_reg",s:1,t:"Registrar un camión",d:"Dé de alta un camión o vehículo de carga y diga cuánto puede cargar.",m:"POST",p:"/unidades",
+ f:[{n:"id",l:"Código del camión",k:"text",r:1,d:()=>rid("UNI"),h:"Lo inventa usted. Ejemplo: UNI-001"},{n:"tipo",l:"Tipo de camión",k:"text",r:1,d:"Camión torton"},{n:"peso_kg",l:"Peso máximo que carga (kg)",k:"num",r:1,d:"8000"},{n:"volumen_m3",l:"Espacio disponible (metros cúbicos)",k:"num",r:1,d:"40"}],
+ save:[["unidad","body.id"]],next:["ope_reg"]},
+{id:"uni_get",s:1,t:"Consultar un camión",d:"Vea los datos de un camión ya registrado.",m:"GET",p:"/unidades/{unidad_id}",f:[id("unidad_id","Código del camión","unidad")],view:"ficha"},
+{id:"ope_reg",s:1,t:"Registrar un operador (conductor)",d:"Dé de alta a la persona que conduce.",m:"POST",p:"/operadores",
+ f:[{n:"id",l:"Código del operador",k:"text",r:1,d:()=>rid("OPE"),h:"Lo inventa usted. Ejemplo: OPE-001"},{n:"nombre",l:"Nombre de la persona",k:"text",r:1,d:"Luis Pérez"},{n:"disponible",l:"¿Está disponible para trabajar?",k:"sel",opt:SINO,d:"true"}],
+ save:[["operador","body.id"]],next:["cot_new"]},
+{id:"ope_get",s:1,t:"Consultar un operador",d:"Vea los datos de un operador y si está disponible.",m:"GET",p:"/operadores/{operador_id}",f:[id("operador_id","Código del operador","operador")],view:"ficha"},
+{id:"ope_disp",s:1,t:"Marcar si un operador está disponible",d:"Cambie la disponibilidad de un operador, por ejemplo si se enfermó o ya regresó.",m:"PUT",p:"/operadores/{operador_id}/disponibilidad",
+ f:[id("operador_id","Código del operador","operador"),{n:"disponible",l:"¿Está disponible?",k:"sel",opt:SINO,d:"false"}]},
+{id:"cot_new",s:2,t:"Pedir una cotización",d:"Cuente qué hay que transportar, de dónde a dónde y para cuándo. Al terminar recibirá un número de cotización; la pantalla lo guarda por usted.",m:"POST",p:"/cotizaciones",
+ f:[Object.assign(id("cliente_id","Código del cliente","cliente"),{in:"body"})].concat(solicitud("solicitud.")),
+ save:[["cotizacion","datos.cotizacion_id"]],next:["cot_precio"]},
+{id:"cot_get",s:2,t:"Consultar una cotización",d:"Vea en qué va una cotización: precio, ruta y si el cliente ya respondió.",m:"GET",p:"/cotizaciones/{cotizacion_id}",f:[id("cotizacion_id","Número de cotización","cotizacion")],view:"cotizacion"},
+{id:"cot_fix",s:2,t:"Corregir los datos de la solicitud",d:"Cambie datos de la solicitud mientras la cotización todavía se pueda modificar (antes de que el cliente responda).",m:"PUT",p:"/cotizaciones/{cotizacion_id}/solicitud",
+ f:[id("cotizacion_id","Número de cotización","cotizacion")].concat(solicitud("")),next:["cot_precio"]},
+{id:"cot_precio",s:2,t:"Poner el precio a la cotización",d:"Ventas escribe cuánto costará el servicio.",m:"PUT",p:"/cotizaciones/{cotizacion_id}/importe",
+ f:[id("cotizacion_id","Número de cotización","cotizacion"),{n:"importe_mxn",l:"Precio en pesos mexicanos (MXN)",k:"text",r:1,d:"12500.00",h:"Escriba solo números. Ejemplo: 12500.00"}],next:["cot_resp"]},
+{id:"cot_resp",s:2,t:"El cliente acepta o rechaza la cotización",d:"Registre la respuesta del cliente. Si acepta, ya se puede crear la orden de servicio.",m:"POST",p:"/cotizaciones/{cotizacion_id}/respuesta",
+ f:[id("cotizacion_id","Número de cotización","cotizacion"),{n:"respuesta",l:"¿Qué respondió el cliente?",k:"sel",opt:[["ACEPTA","Acepta la cotización"],["RECHAZA","Rechaza la cotización"]],d:"ACEPTA"}],next:["ord_new"]},
+{id:"ord_new",s:3,t:"Crear la orden de servicio",d:"Con la cotización aceptada se crea la orden. Recibirá un número de orden; la pantalla lo guarda por usted.",m:"POST",p:"/ordenes",
+ f:[Object.assign(id("cotizacion_id","Número de cotización aceptada","cotizacion"),{in:"body"}),{n:"ruta",l:"Ruta (nombre corto)",k:"text",r:1,d:"MTY-QRO",h:"Por ejemplo: MTY-QRO"},{n:"horario_recoleccion",l:"Fecha y hora de recolección",k:"dt",r:1,d:()=>hora(10)}],
+ save:[["orden","datos.orden_id"]],next:["asignar"]},
+{id:"ord_list",s:3,t:"Ver la lista de órdenes",d:"Consulte todas las órdenes o solo las que están en una situación.",m:"GET",p:"/ordenes",
+ f:[{n:"estado",l:"Mostrar solo las órdenes que estén…",k:"sel",in:"query",o:1,opt:[["","Todas"]].concat(Object.entries(SITUACION).filter(x=>!["EN_PROCESO","ACEPTADA","RECHAZADA"].includes(x[0])))},{n:"limite",l:"Cuántas mostrar como máximo",k:"num",in:"query",d:"50",h:"De 1 a 500"}],view:"lista"},
+{id:"ord_estado",s:3,t:"Consultar el estado de una orden",d:"Vea en qué paso va el envío, su historial y qué se puede hacer ahora.",m:"GET",p:"/ordenes/{orden_id}/estado",f:[id("orden_id","Número de orden","orden")],view:"estado"},
+{id:"asignar",s:3,t:"Asignar camión y operador",d:"Operaciones elige qué camión y qué operador harán el servicio. También sirve para cambiar de operador.",m:"POST",p:"/ordenes/{orden_id}/asignacion",
+ f:[id("orden_id","Número de orden","orden"),Object.assign(id("unidad_id","Código del camión","unidad"),{in:"body"}),Object.assign(id("operador_id","Código del operador","operador"),{in:"body"})],next:["recepcion"]},
+{id:"alto",s:3,t:"Autorizar una carga de alto valor",d:"Las cargas de mucho valor necesitan permiso de Operaciones antes de asignarles camión.",m:"POST",p:"/ordenes/{orden_id}/autorizacion-alto-valor",
+ f:[id("orden_id","Número de orden","orden"),{n:"autorizado_por",l:"¿Quién la autoriza?",k:"text",r:1,d:"Operaciones"}],next:["asignar"]},
+{id:"recepcion",s:3,t:"Registrar que se recogió la mercancía",d:"Anote la recolección con una evidencia (foto o documento).",m:"POST",p:"/ordenes/{orden_id}/recepcion",
+ f:[id("orden_id","Número de orden","orden")].concat(evid("evidencia.",1)),next:["traslado"]},
+{id:"traslado",s:3,t:"Registrar que salió el camión",d:"Avise que el camión ya va en camino. No necesita más datos.",m:"POST",p:"/ordenes/{orden_id}/traslado",f:[id("orden_id","Número de orden","orden")],next:["llegada"]},
+{id:"llegada",s:3,t:"Registrar que el camión llegó al destino",d:"Avise que el camión ya está en la dirección de entrega.",m:"POST",p:"/ordenes/{orden_id}/llegada",f:[id("orden_id","Número de orden","orden")],next:["entrega"]},
+{id:"entrega",s:3,t:"Registrar la entrega (o el problema para entregar)",d:"Anote quién recibió y la evidencia. Si no se pudo entregar bien, elija el problema.",m:"POST",p:"/ordenes/{orden_id}/entrega",
+ f:[id("orden_id","Número de orden","orden"),{n:"destinatario",l:"¿Quién recibió? (nombre o identificación)",k:"text",o:1,d:"INE-123456"}].concat(evid("evidencia.",1)).concat([
+  {n:"incidencia",l:"¿Hubo algún problema al entregar? (opcional)",k:"sel",o:1,opt:[["","No hubo problema"]].concat(INCIDENCIAS),g:"Si hubo un problema"},
+  {n:"descripcion_incidencia",l:"Cuente qué pasó (opcional)",k:"text",o:1,g:"Si hubo un problema"}]),view:"ok",next:["ord_estado"]},
+{id:"incidencia",s:3,t:"Avisar de un problema durante el servicio",d:"Por ejemplo: un retraso, el camión se descompuso o la mercancía llegó dañada. Queda en el historial.",m:"POST",p:"/ordenes/{orden_id}/incidencias",
+ f:[id("orden_id","Número de orden","orden"),{n:"tipo",l:"¿Qué pasó?",k:"sel",opt:INCIDENCIAS,d:"RETRASO"},{n:"descripcion",l:"Cuente los detalles",k:"text",r:1,d:"Tráfico pesado en la carretera, llegaremos 2 horas tarde"}].concat(evid("evidencia.",0)),opt:["ev"],next:["ord_estado"]},
+{id:"cancelar",s:3,t:"Cancelar el servicio",d:"Cancele la orden si todavía no se entregó. Hace falta el permiso de quien tenga autoridad.",m:"POST",p:"/ordenes/{orden_id}/cancelacion",
+ f:[id("orden_id","Número de orden","orden"),{n:"solicitado_por",l:"¿Quién pide cancelar?",k:"text",r:1,d:()=>"Cliente "+(mget("cliente")||"CLI-001")},{n:"motivo",l:"¿Por qué se cancela?",k:"text",r:1,d:"El cliente ya no necesita el envío"},{n:"rol_que_autoriza",l:"¿Qué área lo autoriza?",k:"text",d:"Operaciones",h:"Normalmente: Operaciones"}],next:["ord_estado"]},
+{id:"cambio",s:3,t:"Pedir un cambio en el servicio",d:"Pida, por ejemplo, mover la hora de recolección. Operaciones lo revisará después.",m:"POST",p:"/ordenes/{orden_id}/cambios-operativos",
+ f:[id("orden_id","Número de orden","orden"),{n:"solicitado_por",l:"¿Quién pide el cambio?",k:"text",r:1,d:()=>"Cliente "+(mget("cliente")||"CLI-001")},{n:"descripcion",l:"¿Qué cambio necesita?",k:"text",r:1,d:"Cambiar la hora de recolección a las 10:00"}],next:["revision"]},
+{id:"revision",s:3,t:"Revisar un cambio solicitado",d:"Operaciones aprueba o rechaza el cambio que pidió el cliente.",m:"PUT",p:"/ordenes/{orden_id}/cambios-operativos/revision",
+ f:[id("orden_id","Número de orden","orden"),{n:"revisado_por",l:"¿Quién lo revisa?",k:"text",r:1,d:"Operaciones"},{n:"aprobado",l:"¿Se aprueba el cambio?",k:"sel",opt:[["true","Sí, se aprueba"],["false","No, se rechaza"]],d:"true"},{n:"comentario",l:"Comentario (opcional)",k:"text",o:1,d:"Se puede mover el horario"}],next:["ord_estado"]},
+{id:"indic",s:4,t:"Ver cifras del periodo",d:"Cuántas entregas se hicieron, cuántas llegaron a tiempo, retrasos y problemas.",m:"GET",p:"/indicadores",
+ f:[{n:"desde",l:"Desde el día",k:"date",r:1,in:"query",d:()=>new Date().getFullYear()+"-01-01"},{n:"hasta",l:"Hasta el día",k:"date",r:1,in:"query",d:()=>new Date().getFullYear()+"-12-31"}],view:"indic"},
+{id:"health",s:5,t:"Comprobar que el sistema funciona",d:"Le dice si el sistema está en marcha. No necesita datos.",m:"GET",p:"/health",f:[],view:"salud"}];
+const SECC={1:"1 · Registros básicos",2:"2 · Cotizaciones",3:"3 · Órdenes de servicio",4:"4 · Cifras",5:"5 · Estado del sistema"};
+const porId=Object.fromEntries(OPS.map(o=>[o.id,o]));
+
+/* ---------- Utilidades ---------- */
+const $=s=>document.querySelector(s);
+const esc=t=>String(t==null?"":t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const sit=e=>SITUACION[e]||e;
+function copiar(txt,btn){try{navigator.clipboard.writeText(txt);const o=btn.textContent;btn.textContent="¡Copiado!";setTimeout(()=>btn.textContent=o,1200)}catch(e){prompt("Copie con Ctrl+C:",txt)}}
+window.copiar=copiar;
+
+/* ---------- Menú ---------- */
+function pintarMenu(act){
+  let h=`<a data-id="inicio" class="${act==="inicio"?"on":""}">🏠 Inicio · Camino completo</a>`;
+  for(const s of [1,2,3,4,5]){h+=`<h3>${SECC[s]}</h3>`;for(const o of OPS.filter(x=>x.s===s))h+=`<a data-id="${o.id}" class="${act===o.id?"on":""}">${esc(o.t)}</a>`}
+  $("#nav").innerHTML=h;
+  $("#nav").querySelectorAll("a").forEach(a=>a.onclick=()=>go(a.dataset.id));
+}
+function memoriaHTML(){
+  const ch=Object.keys(MEMNOM).filter(k=>mget(k)).map(k=>`<span class="chip">${MEMNOM[k]}: <b>${esc(mget(k).length>14?mget(k).slice(0,8)+"…":mget(k))}</b><button onclick="copiar('${esc(mget(k))}',this)">Copiar</button></span>`).join("");
+  return `<div class="card"><b>📌 Sus datos guardados</b><p class="desc" style="margin:2px 0 8px">La pantalla recuerda los números que va recibiendo para llenarlos sola en los siguientes pasos.</p>${ch?`<div class="chips">${ch}</div>`:"<i>Todavía no hay datos. Empiece por registrar un cliente.</i>"}${ch?`<p style="margin:10px 0 0"><button class="sec" onclick="mclear();go(location.hash.slice(1)||'inicio')">Empezar de nuevo</button></p>`:""}</div>`;
+}
+
+/* ---------- Pantallas ---------- */
+function go(idOp,opts){
+  history.replaceState(null,"","#"+idOp);
+  pintarMenu(idOp);
+  window.scrollTo({top:0,behavior:"smooth"});
+  if(idOp==="inicio"||!porId[idOp])return inicio();
+  formulario(porId[idOp],opts||{});
+}
+function inicio(){
+  const pasos=[["cli_reg","Registre al cliente"],["uni_reg","Registre un camión"],["ope_reg","Registre un operador"],["cot_new","Pida la cotización (guarde el número)"],["cot_precio","Ponga el precio"],["cot_resp","El cliente acepta"],["ord_new","Cree la orden (guarde el número)"],["asignar","Asigne camión y operador"],["recepcion","Registre la recolección"],["traslado","Registre la salida del camión"],["llegada","Registre la llegada"],["entrega","Registre la entrega"],["ord_estado","Consulte el estado, en cualquier momento"]];
+  $("#main").innerHTML=`<div class="card"><h2>Bienvenido 👋</h2>
+   <p class="desc">Esta pantalla sirve para usar todo el sistema paso a paso, con palabras sencillas. Elija una acción en el menú. Si no sabe por dónde empezar, siga el camino de abajo: cada paso se abre al hacer clic.</p>
+   <ol class="camino">${pasos.map(p=>`<li><div><a data-go="${p[0]}">${p[1]}</a></div></li>`).join("")}</ol></div>
+   ${memoriaHTML()}
+   <div class="card"><b>¿Algo salió mal?</b><p class="desc" style="margin:4px 0 0">No se preocupe: no se pierde nada. Cada mensaje explica en palabras claras qué pasó y qué hacer. Por ejemplo, si intenta aceptar una cotización sin precio, el sistema lo avisa y le dice cuál es el paso que falta.</p></div>`;
+  $("#main").querySelectorAll("[data-go]").forEach(a=>a.onclick=()=>go(a.dataset.go));
+}
+function campoHTML(f,val){
+  const idh="f_"+f.n.replace(/\./g,"__");
+  const ayuda=f.h?`<small>${esc(f.h)}</small>`:"";
+  let ctl;
+  if(f.k==="sel")ctl=`<select id="${idh}">${f.opt.map(o=>`<option value="${esc(o[0])}" ${String(val)===String(o[0])?"selected":""}>${esc(o[1])}</option>`).join("")}</select>`;
+  else{const tipo=f.k==="num"?'type="number" step="any"':f.k==="date"?'type="date"':f.k==="dt"?'type="datetime-local"':'type="text"';ctl=`<input id="${idh}" ${tipo} value="${esc(val)}" autocomplete="off">`}
+  return `<div class="field"><label for="${idh}">${esc(f.l)}${f.r?' <span class="req" title="Obligatorio">*</span>':""}</label>${ctl}${ayuda}</div>`;
+}
+function valorInicial(f,usarEjemplo){
+  if(f.mem){return mget(f.mem)||""}
+  if(f.d===undefined)return"";
+  return typeof f.d==="function"?f.d():f.d;
+}
+function formulario(op,opts){
+  const grupos=[];const sueltos=[];
+  op.f.forEach(f=>{if(f.g){let g=grupos.find(x=>x.n===f.g);if(!g){g={n:f.g,f:[]};grupos.push(g)}g.f.push(f)}else sueltos.push(f)});
+  const ordenOriginal=[];
+  let cuerpo="";
+  const render=(arr)=>arr.map(f=>campoHTML(f,valorInicial(f))).join("");
+  // conservar el orden: campos sueltos primero si vienen antes de su grupo
+  const vistos=new Set();
+  op.f.forEach(f=>{
+    if(f.g){if(vistos.has(f.g))return;vistos.add(f.g);const g=grupos.find(x=>x.n===f.g);cuerpo+=`<fieldset><legend>${esc(g.n)}</legend><div class="grid2">${render(g.f)}</div></fieldset>`}
+    else cuerpo+=render([f]);
+  });
+  $("#main").innerHTML=`<div class="card"><h2>${esc(op.t)}</h2><p class="desc">${esc(op.d)}</p>
+   <form id="frm" novalidate>${cuerpo}
+   <div class="fila"><button class="primario" id="enviar" type="submit">${op.m==="GET"?"Consultar":"Enviar"}</button>${op.f.some(f=>f.d!==undefined&&!f.mem)?'<button type="button" class="sec" id="ej">Llenar con un ejemplo</button>':""}</div></form></div>
+   <div id="res"></div>${memoriaHTML()}`;
+  $("#frm").onsubmit=e=>{e.preventDefault();enviar(op)};
+  const ej=$("#ej");if(ej)ej.onclick=()=>{op.f.forEach(f=>{if(f.mem)return;const el=$("#f_"+f.n.replace(/\./g,"__"));if(el&&f.d!==undefined)el.value=typeof f.d==="function"?f.d():f.d})};
+  if(opts.auto&&op.f.every(f=>!f.r||leer(f)!==""))enviar(op);
+}
+function leer(f){const el=$("#f_"+f.n.replace(/\./g,"__"));return el?el.value.trim():""}
+function poner(obj,ruta,val){const p=ruta.split(".");let o=obj;p.slice(0,-1).forEach(k=>o=o[k]=o[k]||{});o[p[p.length-1]]=val}
+function convertir(f,v){
+  if(f.k==="num")return Number(v);
+  if(f.k==="dt")return new Date(v).toISOString();
+  if(f.k==="sel"&&(v==="true"||v==="false"))return v==="true";
+  return v;
+}
+
+/* ---------- Enviar al sistema ---------- */
+async function enviar(op){
+  const faltan=op.f.filter(f=>f.r&&leer(f)==="");
+  const r=$("#res");
+  if(faltan.length){
+    r.innerHTML=`<div class="mal"><h4>Falta completar algo</h4>Complete: ${faltan.map(f=>"«"+esc(f.l)+"»").join(", ")}.</div>`;
+    const el=$("#f_"+faltan[0].n.replace(/\./g,"__"));if(el)el.focus();return;
+  }
+  let url=op.p;const query=new URLSearchParams();const cuerpo={};const vals={};
+  op.f.forEach(f=>{
+    const v=leer(f);vals[f.n]=v;
+    if(f.in==="path"){url=url.replace("{"+f.n+"}",encodeURIComponent(v))}
+    else if(f.in==="query"){if(v!=="")query.set(f.n,v)}
+    else{if(v===""&&(f.o||f.grp==="ev"))return;if(v==="")return;poner(cuerpo,f.n,f.k==="text"&&f.n==="importe_mxn"?v:convertir(f,v))}
+  });
+  if(op.opt&&op.opt.includes("ev")&&!vals["evidencia.referencia"])delete cuerpo.evidencia;
+  if(query.toString())url+="?"+query.toString();
+  const tieneCuerpo=!["GET"].includes(op.m)&&Object.keys(cuerpo).length>0;
+  const btn=$("#enviar");btn.disabled=true;btn.textContent="Un momento…";
+  r.innerHTML=`<div class="aviso" id="espera" style="display:none">⏳ El sistema estaba descansando y está despertando. Puede tardar hasta un minuto, espere por favor.</div>`;
+  const t=setTimeout(()=>{const e=$("#espera");if(e)e.style.display="block"},3500);
+  try{
+    const resp=await fetch(url,{method:op.m,headers:tieneCuerpo?{"Content-Type":"application/json"}:{},body:tieneCuerpo?JSON.stringify(cuerpo):undefined});
+    let datos=null;try{datos=await resp.json()}catch(e){}
+    clearTimeout(t);
+    if(resp.ok){
+      op.f.filter(f=>f.in==="path"&&f.mem).forEach(f=>mset(f.mem,vals[f.n]));
+      (op.save||[]).forEach(([k,src])=>{const [raiz,campo]=src.split(".");const fuente=raiz==="body"?vals:(datos&&datos.datos)||{};mset(k,fuente[campo])});
+      mostrarOk(op,datos,resp.status,url,cuerpo);
+    }else mostrarError(datos,resp.status,url,cuerpo);
+  }catch(e){
+    clearTimeout(t);
+    r.innerHTML=`<div class="mal"><h4>No pudimos comunicarnos con el sistema</h4>Revise su conexión a internet y vuelva a intentar. Si el sistema estaba descansando, espere un minuto y pruebe otra vez.</div>`;
+  }
+  btn.disabled=false;btn.textContent=op.m==="GET"?"Consultar":"Enviar";
+  $("#res").scrollIntoView({behavior:"smooth",block:"nearest"});
+  actualizarMemoria();
+}
+function actualizarMemoria(){const cards=document.querySelectorAll("#main > .card");const ult=cards[cards.length-1];if(ult&&ult.innerHTML.includes("Sus datos guardados"))ult.outerHTML=memoriaHTML()}
+function tecnico(status,url,cuerpo,datos){return `<details><summary>Ver detalle técnico</summary><pre>Respuesta HTTP ${status}\n${esc(url)}\n${cuerpo&&Object.keys(cuerpo).length?esc(JSON.stringify(cuerpo,null,2))+"\n":""}${esc(JSON.stringify(datos,null,2))}</pre></details>`}
+function mostrarError(d,status,url,cuerpo){
+  const m=(d&&d.mensaje)||"No se pudo completar la acción.",q=d&&d.que_hacer;
+  $("#res").innerHTML=`<div class="mal"><h4>❗ No se pudo completar</h4><div>${esc(m)}</div>${q?`<p style="margin:10px 0 0"><b>Qué hacer:</b> ${esc(q)}</p>`:""}${tecnico(status,url,cuerpo,d)}</div>`;
+}
+function botonesSiguiente(op){return (op.next||[]).length?`<div class="siguiente"><b>Siguiente paso:</b> ${op.next.map(n=>`<button class="sec" data-sig="${n}">${esc(porId[n].t)}</button>`).join(" ")}</div>`:""}
+function enlazarSiguientes(){document.querySelectorAll("[data-sig]").forEach(b=>b.onclick=()=>go(b.dataset.sig))}
+function mostrarOk(op,d,status,url,cuerpo){
+  const r=$("#res");
+  if(op.view&&op.view!=="ok"){r.innerHTML=({ficha,cotizacion,lista,estado,indic,salud}[op.view])(op,d)+tecnico(status,url,cuerpo,d);enlazarSiguientes();document.querySelectorAll("[data-ver]").forEach(b=>b.onclick=()=>{mset("orden",b.dataset.ver);go("ord_estado",{auto:true})});document.querySelectorAll("[data-sig]").forEach(b=>b.onclick=()=>go(b.dataset.sig,{auto:b.dataset.auto==="1"}));return}
+  const datos=(d&&d.datos)||{};
+  const claves=Object.entries(datos).filter(([k])=>/_id$/.test(k)).map(([k,v])=>`<span class="chip">${esc(k.replace("_id","").replace("cotizacion","cotización").replace("orden","orden"))}: <b>${esc(v)}</b><button onclick="copiar('${esc(v)}',this)">Copiar</button></span>`).join("");
+  const est=datos.estado?`<p style="margin:8px 0 0">Situación ahora: <span class="eti">${esc(sit(datos.estado))}</span></p>`:"";
+  r.innerHTML=`<div class="ok"><h4>✅ Listo</h4><div>${esc(d&&d.mensaje||"La acción se realizó correctamente.")}</div>${est}${claves?`<div class="chips" style="margin-top:10px">${claves}</div>`:""}${d&&d.que_sigue?`<p style="margin:10px 0 0"><b>Qué sigue:</b> ${esc(d.que_sigue)}</p>`:""}${botonesSiguiente(op)}${tecnico(status,url,cuerpo,d)}</div>`;
+  enlazarSiguientes();
+}
+const kv=(pares)=>`<dl class="kv">${pares.filter(p=>p[1]!==undefined).map(p=>`<dt>${esc(p[0])}</dt><dd>${p[1]===null||p[1]===""?"—":esc(p[1])}</dd>`).join("")}</dl>`;
+const sn=b=>b?"Sí":"No";
+function ficha(op,d){
+  let p=[];
+  if(op.id==="cli_get")p=[["Código",d.id],["Nombre",d.nombre],["Ciudad",d.ciudad]];
+  if(op.id==="uni_get")p=[["Código",d.id],["Tipo de camión",d.tipo],["Peso máximo que carga",d.peso_kg+" kg"],["Espacio disponible",d.volumen_m3+" m³"]];
+  if(op.id==="ope_get")p=[["Código",d.id],["Nombre",d.nombre],["¿Disponible?",sn(d.disponible)]];
+  return `<div class="ok"><h4>Datos encontrados</h4>${kv(p)}</div>`;
+}
+function cotizacion(op,d){
+  return `<div class="ok"><h4>Cotización encontrada</h4>${kv([["Número",d.cotizacion_id],["Cliente",d.cliente_id],["Respuesta del cliente",sit(d.estado)],["Paso del servicio",sit(d.estado_del_servicio)],["Precio",d.importe_mxn==null?"Todavía sin precio":"$"+Number(d.importe_mxn).toLocaleString("es-MX",{minimumFractionDigits:2})+" MXN"],["Origen",d.origen],["Destino",d.destino],["Mercancía",d.mercancia],["Peso",d.peso_kg+" kg"],["¿Carga de mucho valor?",sn(d.alto_valor)],["Fecha requerida",d.fecha_requerida]])}
+  ${d.importe_mxn==null?`<div class="siguiente"><button class="sec" data-sig="cot_precio">Poner el precio</button></div>`:d.estado==="EN_PROCESO"?`<div class="siguiente"><button class="sec" data-sig="cot_resp">Registrar la respuesta del cliente</button></div>`:d.estado==="ACEPTADA"?`<div class="siguiente"><button class="sec" data-sig="ord_new">Crear la orden de servicio</button></div>`:""}</div>`;
+}
+function lista(op,d){
+  if(!d.length)return `<div class="aviso">No hay órdenes con esos filtros todavía.</div>`;
+  return `<div class="ok"><h4>${d.length} orden${d.length>1?"es":""} encontrada${d.length>1?"s":""}</h4><div style="overflow:auto"><table><tr><th>Orden</th><th>Cliente</th><th>Situación</th><th>Ruta</th><th>Fecha requerida</th><th></th></tr>${d.map(o=>`<tr><td title="${esc(o.orden_id)}">${esc(o.orden_id.slice(0,8))}…</td><td>${esc(o.cliente_id)}</td><td><span class="eti">${esc(sit(o.estado))}</span></td><td>${esc(o.ruta)}${o.alto_valor?" · alto valor":""}</td><td>${esc(o.fecha_requerida)}</td><td><button class="sec" data-ver="${esc(o.orden_id)}">Ver estado</button></td></tr>`).join("")}</table></div></div>`;
+}
+function estado(op,d){
+  const act=d.estado_actual;
+  const pasos=act==="CANCELADO"?`<div class="pasos"><div class="paso cancel">Servicio cancelado</div></div>`:`<div class="pasos">${RUTA_ESTADOS.map((e,i)=>{const ia=RUTA_ESTADOS.indexOf(act);return `<div class="paso ${i<ia?"hecho":i===ia?"ahora":""}">${i<ia?"✓ ":""}${esc(sit(e))}</div>`}).join("")}</div>`;
+  const acc=(d.acciones_permitidas||[]).filter(a=>ACCION[a]);
+  return `<div class="ok"><h4>${esc(d.resumen||"")}</h4>${pasos}
+   ${kv([["Número de orden",d.orden_id],["Camión asignado",d.unidad_id||"Todavía no"],["Operador asignado",d.operador_id||"Todavía no"],["Cambio pendiente de revisar",d.cambio_operativo_pendiente?"Sí: "+(d.cambio_operativo_pendiente.descripcion||JSON.stringify(d.cambio_operativo_pendiente)):"No"]])}
+   <h4 style="margin:14px 0 4px">Historial</h4>${(d.eventos||[]).length?`<ul style="margin:0;padding-left:20px">${d.eventos.map(e=>`<li>${esc(e)}</li>`).join("")}</ul>`:"<i>Sin movimientos todavía.</i>"}
+   ${(d.retrasos||[]).length?`<h4 style="margin:14px 0 4px">Retrasos</h4><ul style="margin:0;padding-left:20px">${d.retrasos.map(x=>`<li>${esc(typeof x==="string"?x:JSON.stringify(x))}</li>`).join("")}</ul>`:""}
+   ${(d.incidencias||[]).length?`<h4 style="margin:14px 0 4px">Problemas avisados</h4><ul style="margin:0;padding-left:20px">${d.incidencias.map(x=>`<li>${esc(typeof x==="string"?x:JSON.stringify(x))}</li>`).join("")}</ul>`:""}
+   <div class="siguiente"><b>${acc.length?"Lo que se puede hacer ahora:":"Este servicio ya no admite más pasos."}</b> ${acc.map(a=>`<button class="sec" data-sig="${ACCION[a][0]}">${esc(ACCION[a][1])}</button>`).join(" ")} <button class="sec" data-sig="incidencia">Avisar de un problema</button> <button class="sec" data-sig="cambio">Pedir un cambio</button> ${d.cambio_operativo_pendiente?'<button class="sec" data-sig="revision">Revisar el cambio pedido</button>':""}</div></div>`;
+}
+function indic(op,d){
+  const cump=d.cumplimiento_de_entregas==null?"Aún sin entregas":Math.round(d.cumplimiento_de_entregas*100)+" %";
+  const h=d.tiempos_reales_de_entrega_horas||[];const prom=h.length?(h.reduce((a,b)=>a+b,0)/h.length).toFixed(1)+" h":"—";
+  const t=(n,l)=>`<div class="tile"><b>${esc(n)}</b><span>${esc(l)}</span></div>`;
+  return `<div class="ok"><h4>Cifras del periodo</h4><div class="tiles">${t(d.ordenes_en_el_periodo,"órdenes en el periodo")}${t(d.entregas_realizadas,"entregas realizadas")}${t(d.entregas_a_tiempo,"entregas a tiempo")}${t(cump,"cumplimiento de entregas")}${t(d.retrasos,"retrasos")}${t(d.incidencias,"problemas avisados")}${t(prom,"tiempo promedio de entrega")}</div></div>`;
+}
+function salud(op,d){return `<div class="ok"><h4>✅ El sistema está funcionando</h4>${kv([["Estado",d.estado==="ok"?"Todo en orden":d.estado],["Entorno",d.entorno==="produccion"?"Producción (en uso real)":d.entorno==="desarrollo"?"Desarrollo (pruebas)":d.entorno]])}</div>`}
+
+/* ---------- Arranque ---------- */
+async function salud0(){
+  const e=$("#estado");
+  try{const r=await fetch("/health");const d=await r.json();e.textContent=d.estado==="ok"?"✅ Sistema funcionando":"⚠️ El sistema responde con problemas"}
+  catch(x){e.textContent="⏳ Despertando el sistema…";setTimeout(salud0,5000)}
+}
+window.addEventListener("hashchange",()=>go(location.hash.slice(1)||"inicio"));
+go(location.hash.slice(1)||"inicio");
+salud0();
+</script>
+</body>
+</html>
